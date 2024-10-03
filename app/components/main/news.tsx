@@ -10,6 +10,7 @@ import {
 	HeartIcon,
 } from '@heroicons/react/24/outline'
 import { usePrevNextButtons } from '../ui/EmblaCarouselArrowButtons'
+import { Button } from '@/components/ui/button'
 
 interface newsType {
 	id: number
@@ -33,40 +34,33 @@ export default function News() {
 	} = usePrevNextButtons(emblaApi)
 
 	return (
-		<div className='w-full p-4 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>
-			<div className='flex justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
+		<div className='w-full p-4 pt-8 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>
+			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
 					Новости
 				</h1>
-				<div className='flex border rounded-xl items-center divide-x overflow-hidden'>
-					<div
-						className={`p-2 cursor-pointer ${
-							prevBtnDisabled
-								? 'cursor-default text-gray-500'
-								: 'hover:bg-[#F8F8F8]'
-						}`}
+				<div className='flex items-center gap-2'>
+					<Button
+						size='icon'
+						variant='outline'
 						onClick={onPrevButtonClick}
+						disabled={prevBtnDisabled}
 					>
 						<ChevronLeftIcon className='size-4' />
-					</div>
+					</Button>
 
-					<Link
-						href='/news'
-						className='content-center p-2 text-sm leading-[1rem] text-center hover:bg-[#F8F8F8]'
-					>
-						Показать всё
-					</Link>
+					<Button asChild variant='outline'>
+						<Link href='/news'>Показать всё</Link>
+					</Button>
 
-					<div
-						className={`p-2 cursor-pointer ${
-							nextBtnDisabled
-								? 'cursor-default text-gray-500'
-								: 'hover:bg-[#F8F8F8]'
-						}`}
+					<Button
+						size='icon'
+						variant='outline'
 						onClick={onNextButtonClick}
+						disabled={nextBtnDisabled}
 					>
 						<ChevronRightIcon className='size-4' />
-					</div>
+					</Button>
 				</div>
 			</div>
 			<div className='embla'>
@@ -74,10 +68,10 @@ export default function News() {
 					<div className='embla__container'>
 						{new Array(12).fill(0).map((_, index) => (
 							<div
-								className='embla__slide select-none flex-[0_0_100%] md:flex-[0_0_calc(100%/3)] 2xl:flex-[0_0_calc(100%/6)]'
+								className='embla__slide select-none flex-[0_0_100%] md:flex-[0_0_calc(100%/3)] 2xl:flex-[0_0_calc(100%/6)] min-w-72 sm:min-w-0'
 								key={index}
 							>
-								<div className='w-full flex flex-col justify-end overflow-hidden cursor-pointer border rounded-3xl group/item hover:bg-[#F8F8F8]'>
+								<div className='w-full flex flex-col justify-end overflow-hidden cursor-pointer border rounded-3xl group/item hover:bg-secondary'>
 									<div className='overflow-hidden'>
 										<Image
 											src='/main-background.png'
@@ -106,7 +100,6 @@ export default function News() {
 											<div className='text-xs font-light'>
 												#пресс-релиз • 15 мин назад
 											</div>
-											{/* <div className='text-xs font-light'>15 мин назад</div> */}
 											<div className='flex gap-2'>
 												<div className='flex gap-1 items-center'>
 													<EyeIcon className='size-4 text-gray-400' />

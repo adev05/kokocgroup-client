@@ -5,6 +5,7 @@ import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { usePrevNextButtons } from '../ui/EmblaCarouselArrowButtons'
+import { Button } from '@/components/ui/button'
 
 export default function Matches() {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -20,38 +21,31 @@ export default function Matches() {
 	} = usePrevNextButtons(emblaApi)
 
 	return (
-		<div className='w-full p-4 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>
-			<div className='flex justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
+		<div className='w-full p-4 pt-8 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>
+			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>Матчи</h1>
-				<div className='flex border rounded-xl items-center divide-x overflow-hidden'>
-					<div
-						className={`p-2 cursor-pointer ${
-							prevBtnDisabled
-								? 'cursor-default text-gray-500'
-								: 'hover:bg-[#F8F8F8]'
-						}`}
+				<div className='flex items-center gap-2'>
+					<Button
+						size='icon'
+						variant='outline'
 						onClick={onPrevButtonClick}
+						disabled={prevBtnDisabled}
 					>
 						<ChevronLeftIcon className='size-4' />
-					</div>
+					</Button>
 
-					<Link
-						href='/matches'
-						className='content-center p-2 text-sm leading-[1rem] text-center hover:bg-[#F8F8F8]'
-					>
-						Показать всё
-					</Link>
+					<Button asChild variant='outline'>
+						<Link href='/matches'>Показать всё</Link>
+					</Button>
 
-					<div
-						className={`p-2 cursor-pointer ${
-							nextBtnDisabled
-								? 'cursor-default text-gray-500'
-								: 'hover:bg-[#F8F8F8]'
-						}`}
+					<Button
+						size='icon'
+						variant='outline'
 						onClick={onNextButtonClick}
+						disabled={nextBtnDisabled}
 					>
 						<ChevronRightIcon className='size-4' />
-					</div>
+					</Button>
 				</div>
 			</div>
 			{/* <div className='flex w-full gap-6 overflow-x-auto snap-x snap-mandatory'>
@@ -117,10 +111,10 @@ export default function Matches() {
 					<div className='embla__container'>
 						{new Array(16).fill(0).map((_, index) => (
 							<div
-								className='embla__slide select-none flex-[0_0_100%] md:flex-[0_0_calc(100%/3)] 2xl:flex-[0_0_calc(100%/6)]'
+								className='embla__slide select-none flex-[0_0_calc(100%/1)] xs:flex-[0_0_calc(100%/2)] md:flex-[0_0_calc(100%/3)] 2xl:flex-[0_0_calc(100%/6)] min-w-72 xs:min-w-0'
 								key={index}
 							>
-								<div className='border border-[#e5e7eb] rounded-2xl aspect-[0.975] hover:bg-[#F8F8F8] cursor-pointer transition-colors'>
+								<div className='border rounded-2xl aspect-[0.975] hover:bg-secondary cursor-pointer transition-colors'>
 									<div className='flex flex-col w-full justify-center items-center py-12 px-6 gap-12 h-full'>
 										<div className='mb-auto'>
 											<p className='uppercase text-xs font-medium text-center line-clamp-1'>

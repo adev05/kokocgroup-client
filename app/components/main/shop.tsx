@@ -5,6 +5,7 @@ import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { usePrevNextButtons } from '../ui/EmblaCarouselArrowButtons'
+import { Button } from '@/components/ui/button'
 
 export default function Shop() {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -20,40 +21,33 @@ export default function Shop() {
 	} = usePrevNextButtons(emblaApi)
 
 	return (
-		<div className='w-full p-4 lg:p-16 xl:p-32'>
-			<div className='flex justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
+		<div className='w-full p-4 pt-8 lg:p-16 xl:p-32'>
+			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
 					Магазин
 				</h1>
-				<div className='flex border rounded-xl items-center divide-x overflow-hidden'>
-					<div
-						className={`p-2 cursor-pointer ${
-							prevBtnDisabled
-								? 'cursor-default text-gray-500'
-								: 'hover:bg-[#F8F8F8]'
-						}`}
+				<div className='flex items-center gap-2'>
+					<Button
+						size='icon'
+						variant='outline'
 						onClick={onPrevButtonClick}
+						disabled={prevBtnDisabled}
 					>
 						<ChevronLeftIcon className='size-4' />
-					</div>
+					</Button>
 
-					<Link
-						href='/shop'
-						className='content-center p-2 text-sm leading-[1rem] text-center hover:bg-[#F8F8F8]'
-					>
-						Показать всё
-					</Link>
+					<Button asChild variant='outline'>
+						<Link href='/shop'>Показать всё</Link>
+					</Button>
 
-					<div
-						className={`p-2 cursor-pointer ${
-							nextBtnDisabled
-								? 'cursor-default text-gray-500'
-								: 'hover:bg-[#F8F8F8]'
-						}`}
+					<Button
+						size='icon'
+						variant='outline'
 						onClick={onNextButtonClick}
+						disabled={nextBtnDisabled}
 					>
 						<ChevronRightIcon className='size-4' />
-					</div>
+					</Button>
 				</div>
 			</div>
 			<div className='embla'>
@@ -61,10 +55,10 @@ export default function Shop() {
 					<div className='embla__container'>
 						{new Array(12).fill(0).map((_, index) => (
 							<div
-								className='embla__slide select-none flex-[0_0_calc(100%/2)] md:flex-[0_0_calc(100%/3)] 2xl:flex-[0_0_calc(100%/6)]'
+								className='embla__slide select-none flex-[0_0_calc(100%/1)] xs:flex-[0_0_calc(100%/2)] md:flex-[0_0_calc(100%/3)] 2xl:flex-[0_0_calc(100%/6)] min-w-72 xs:min-w-0'
 								key={index}
 							>
-								<div className='flex flex-col rounded-xl overflow-hidden bg-[#F8F8F8]'>
+								<div className='border flex flex-col rounded-2xl overflow-hidden'>
 									<Image
 										src='/main-background.png'
 										alt='shop-item image'
@@ -80,12 +74,10 @@ export default function Shop() {
 										<h1 className='font-semibold text-xl line-clamp-2'>
 											22 200₽
 										</h1>
-										<Link
-											href='/'
-											className='bg-[#E32726] text-white font-semibold p-2 text-center rounded-xl w-full'
-										>
-											Купить
-										</Link>
+
+										<Button asChild>
+											<Link href='/'>Купить</Link>
+										</Button>
 									</div>
 								</div>
 							</div>

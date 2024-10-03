@@ -1,10 +1,19 @@
 'use client'
 
-import { Bars3Icon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import Logotype from './logotype'
+import { ModeToggle } from './ui/ModeToggle'
+import { useTheme } from 'next-themes'
+import { Button } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { Bars3Icon } from '@heroicons/react/16/solid'
 
 const headerComponents = [
 	{
@@ -41,33 +50,50 @@ const headerComponents = [
 
 export default function Header() {
 	const pathname = usePathname()
+
 	return (
-		<div className='flex'>
-			<header className='text-black flex mx-auto justify-between items-center p-[10px] m-[8px] w-[calc(100%-16px)] h-[60px] gap-4'>
-				<Logotype variant='red' size='long' />
-				<nav className='hidden lg:block'>
-					{headerComponents.map(component => (
-						<Link
-							href={component.link}
-							className={`hover:text-[#E32726] transition-colors mr-8 ${
-								pathname == component.link && 'text-[#E32726]'
-							}`}
-							key={component.id}
-						>
-							{component.name}
-						</Link>
-					))}
-				</nav>
-				<div className='flex gap-4 items-center lg:w-[160px]'>
-					<Link
-						href='/login'
-						className='rounded-xl bg-black text-white font-medium text-base h-10 content-center px-3 hidden xs:block w-[80px] ml-auto'
+		<header className='flex mx-auto justify-between items-center p-[10px] m-[8px] w-[calc(100%-16px)] h-[60px] gap-2'>
+			<Logotype variant='red' size='long' />
+			<nav className='hidden lg:block'>
+				{headerComponents.map(component => (
+					<Button
+						asChild
+						variant={pathname == component.link ? 'outline' : 'ghost'}
+						className='transition-colors mr-3'
+						// className={`hover:text-[#E32726] transition-colors mr-4 ${
+						// 	pathname == component.link && 'text-[#E32726]'
+						// }`}
+						key={component.id}
 					>
-						Войти
-					</Link>
-					<Bars3Icon className='size-6 xs:size-9 block lg:hidden cursor-pointer max-w-full h-auto' />
-				</div>
-			</header>
-		</div>
+						<Link href={component.link}>{component.name}</Link>
+					</Button>
+				))}
+			</nav>
+			<div className='flex gap-2 items-center lg:w-[160px] justify-end'>
+				<ModeToggle />
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							variant='ghost'
+							size='icon'
+							className='rounded-xl flex lg:hidden'
+						>
+							<Bars3Icon className='h-4 w-4' />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align='end'>
+						{headerComponents.map(component => (
+							<DropdownMenuItem key={component.id} asChild>
+								<Link href={component.link}>{component.name}</Link>
+							</DropdownMenuItem>
+						))}
+					</DropdownMenuContent>
+				</DropdownMenu>
+				{/* <Bars3Icon className='size-6 xs:size-9 block lg:hidden cursor-pointer max-w-full h-auto' /> */}
+				<Button asChild className='hidden xs:block'>
+					<Link href='/login'>Войти</Link>
+				</Button>
+			</div>
+		</header>
 	)
 }

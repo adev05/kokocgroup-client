@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
+import { ThemeProvider } from 'next-themes'
 
 const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
@@ -16,7 +17,16 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${montserrat.className} antialiased`}>{children}</body>
+			<body className={`${montserrat.className} antialiased`}>
+				<ThemeProvider
+					attribute='class'
+					defaultTheme='system'
+					enableSystem
+					disableTransitionOnChange
+				>
+					{children}
+				</ThemeProvider>
+			</body>
 		</html>
 	)
 }

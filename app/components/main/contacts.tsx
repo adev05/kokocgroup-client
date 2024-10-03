@@ -8,6 +8,8 @@ export default function Contacts() {
 					Контакты
 				</h1>
 			</div>
+			<p>форма обратной связи</p>
+			<p>Контактные данные</p>
 		</div>
 	)
 }
