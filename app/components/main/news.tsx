@@ -4,22 +4,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
-import {
-	ChatBubbleBottomCenterIcon,
-	EyeIcon,
-	HeartIcon,
-} from '@heroicons/react/24/outline'
+import { EyeIcon } from '@heroicons/react/24/outline'
 import { usePrevNextButtons } from '../ui/EmblaCarouselArrowButtons'
 import { Button } from '@/components/ui/button'
 
-interface newsType {
-	id: number
-	title: string
-	image: string
-	eventDate: Date // если дата > текущаяДата, то статус "Анонс"
-	views: number
-	type: string // трансфер, интервью, матч, пресс-релиз
-}
+// interface newsType {
+// 	id: number
+// 	title: string
+// 	image: string
+// 	eventDate: Date // если дата > текущаяДата, то статус "Анонс"
+// 	views: number
+// 	type: string // трансфер, интервью, матч, пресс-релиз
+// }
 
 export default function News() {
 	const [emblaRef, emblaApi] = useEmblaCarousel({

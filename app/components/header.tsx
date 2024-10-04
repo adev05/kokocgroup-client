@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Logotype from './logotype'
 import { ModeToggle } from './ui/ModeToggle'
-import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -12,7 +11,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { Bars3Icon } from '@heroicons/react/16/solid'
 
 const headerComponents = [
@@ -52,7 +50,7 @@ export default function Header() {
 	const pathname = usePathname()
 
 	return (
-		<header className='flex mx-auto justify-between items-center p-[10px] m-[8px] w-[calc(100%-16px)] h-[60px] gap-2'>
+		<header className='flex mx-auto justify-between items-center p-[10px] m-[8px] w-[calc(100%-18px)] h-[60px] gap-2 sticky top-2 bg-background z-10 rounded-2xl'>
 			<Logotype variant='red' size='long' />
 			<nav className='hidden lg:block'>
 				{headerComponents.map(component => (
@@ -60,9 +58,6 @@ export default function Header() {
 						asChild
 						variant={pathname == component.link ? 'outline' : 'ghost'}
 						className='transition-colors mr-3'
-						// className={`hover:text-[#E32726] transition-colors mr-4 ${
-						// 	pathname == component.link && 'text-[#E32726]'
-						// }`}
 						key={component.id}
 					>
 						<Link href={component.link}>{component.name}</Link>

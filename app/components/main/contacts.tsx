@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 export default function Contacts() {
 	return (
 		<div className='w-full p-4 lg:p-16 xl:p-32'>

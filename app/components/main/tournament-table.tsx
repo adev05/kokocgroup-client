@@ -1,6 +1,3 @@
-import Link from 'next/link'
-import Image from 'next/image'
-
 export default function TournamentTable() {
 	return (
 		<div className='w-full p-4 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>

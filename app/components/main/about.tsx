@@ -7,13 +7,10 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import useEmblaCarousel from 'embla-carousel-react'
-import Image from 'next/image'
-import { usePrevNextButtons } from '../ui/EmblaCarouselArrowButtons'
-import { useEffect } from 'react'
 import AutoScroll from 'embla-carousel-auto-scroll'
 
 export default function About() {
-	const [emblaRef, emblaApi] = useEmblaCarousel(
+	const [emblaRef] = useEmblaCarousel(
 		{
 			loop: true,
 			watchDrag: false,
@@ -22,9 +19,6 @@ export default function About() {
 		[AutoScroll({ playOnInit: true, startDelay: 0 })]
 	)
 
-	useEffect(() => {
-		emblaApi?.plugins()?.autoScroll.play
-	}, [])
 	return (
 		<div className='w-full p-4 lg:p-16 xl:p-32'>
 			<div className='flex justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
