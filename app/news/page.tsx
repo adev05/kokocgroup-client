@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import NewsCard from '../components/news/card'
+import NewsCard from '../../components/news/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import {

@@ -12,6 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Bars3Icon } from '@heroicons/react/16/solid'
+import { SignIn } from './signin-button'
 
 const headerComponents = [
 	{
@@ -85,9 +86,7 @@ export default function Header() {
 					</DropdownMenuContent>
 				</DropdownMenu>
 				{/* <Bars3Icon className='size-6 xs:size-9 block lg:hidden cursor-pointer max-w-full h-auto' /> */}
-				<Button asChild className='hidden xs:block'>
-					<Link href='/login'>Войти</Link>
-				</Button>
+				<SignIn />
 			</div>
 		</header>
 	)
