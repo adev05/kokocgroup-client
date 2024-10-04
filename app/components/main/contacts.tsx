@@ -1,3 +1,7 @@
+'use client'
+
+import YandexMap from './yandex-map'
+
 export default function Contacts() {
 	return (
 		<div className='w-full p-4 lg:p-16 xl:p-32'>
@@ -8,6 +12,7 @@ export default function Contacts() {
 			</div>
 			<p>форма обратной связи</p>
 			<p>Контактные данные</p>
+			<YandexMap />
 		</div>
 	)
 }

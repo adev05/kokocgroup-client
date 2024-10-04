@@ -13,7 +13,7 @@ export default function LoginPage() {
 			</div>
 			<div className='content-center text-center space-y-4'>
 				<div className=' space-y-4'>
-					<Input type='text' placeholder='Введите адрес эл.почты' />
+					<Input type='email' placeholder='Введите адрес эл.почты' />
 					<Input type='password' placeholder='Введите пароль' />
 				</div>
 				<div className='flex justify-between'>

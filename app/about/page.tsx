@@ -7,6 +7,7 @@ export default function AboutPage() {
 				</h1>
 				<div className='text-sm lg:text-base xl:text-xl text-end'>фильтр</div>
 			</div>
+			<p>https://spartak.com/club/results</p>
 		</div>
 	)
 }

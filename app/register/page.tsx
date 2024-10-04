@@ -12,7 +12,7 @@ export default function RegisterPage() {
 			</div>
 			<div className='content-center text-center space-y-4'>
 				<div className=' space-y-4'>
-					<Input type='text' placeholder='Введите адрес эл.почты' />
+					<Input type='email' placeholder='Введите адрес эл.почты' />
 					<Input type='password' placeholder='Создайте пароль' />
 				</div>
 				<Button className='w-full'>Создать аккаунт</Button>
