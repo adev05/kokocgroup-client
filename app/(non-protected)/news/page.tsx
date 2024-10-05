@@ -1,16 +1,12 @@
-import Image from 'next/image'
-import NewsCard from '../../components/news/card'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import {
 	Select,
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import NewsCard from '@/components/news/card'
 
 export default function NewsPage() {
 	return (

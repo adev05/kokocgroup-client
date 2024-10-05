@@ -1,10 +1,21 @@
-import { auth } from '@/auth'
+'use client'
+
 import { SignOut } from '@/components/signout-button'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
-export default async function Dashboard() {
-	const session = await auth()
+export default function Dashboard() {
+	const { data: session, status, update } = useSession()
 
-	if (!session) return <div>Not authenticated</div>
+	console.log('Dashboard')
+
+	useEffect(() => {
+		console.log('Dashboard update')
+	}, [status])
+
+	if (status === 'loading') return <div>Loading...</div>
+
+	if (!session) return <div>{status}</div>
 
 	return (
 		<>

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Logotype from '../../components/logotype'
+import Logotype from '@/components/logotype'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'

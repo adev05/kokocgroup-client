@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from 'next-auth'
+import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { z } from 'zod'
 import { User } from './app/lib/definitions'
@@ -9,50 +9,28 @@ const userSchema = z.object({
 	password: z.string().min(8),
 })
 
-declare module 'next-auth' {
-	/**
-	 * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-	 */
-	interface Session {
-		user: {
-			/** The user's postal address. */
-			username: string
-			first_name: string
-			last_name: string
-			patronymic: string
-			date_of_birth: string
-			phone_number: string
-			/**
-			 * By default, TypeScript merges new interface properties and overwrites existing ones.
-			 * In this case, the default session user properties will be overwritten,
-			 * with the new ones defined above. To keep the default session user properties,
-			 * you need to add them back into the newly declared interface.
-			 */
-		} & DefaultSession['user']
-	}
-}
-
 async function fetchUser(
 	login: string,
 	password: string
 ): Promise<User | null> {
 	try {
-		const response = await fetch('http://localhost:8000/api/v1/users/auth', {
-			method: 'POST',
-			headers: {
-				accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ username: login, password }),
-		})
+		const response = await fetch(
+			process.env.SERVER_URL + '/v1/users/auth/login',
+			{
+				method: 'POST',
+				headers: {
+					accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ login, password }),
+			}
+		)
 
 		if (!response.ok) {
 			throw new Error('Failed to fetch user.')
 		}
 
 		const userData = await response.json()
-
-		console.log(userData)
 
 		if (!userData) {
 			throw new Error('Failed to fetch user.')
@@ -69,7 +47,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	...authConfig,
 	providers: [
 		Credentials({
-			authorize: async (credentials, request) => {
+			authorize: async credentials => {
 				// Валидация входных данных с помощью схемы
 				const parsedCredentials = userSchema.safeParse(credentials)
 
