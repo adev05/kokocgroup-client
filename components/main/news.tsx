@@ -1,13 +1,8 @@
 'use client'
 
-import Link from 'next/link'
-import Image from 'next/image'
-import useEmblaCarousel from 'embla-carousel-react'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
-import { EyeIcon } from '@heroicons/react/24/outline'
-import { usePrevNextButtons } from '../ui/EmblaCarouselArrowButtons'
 import { Button } from '@/components/ui/button'
 import NewsCard from '../news/card'
+import Link from 'next/link'
 
 // interface newsType {
 // 	id: number
@@ -19,17 +14,6 @@ import NewsCard from '../news/card'
 // }
 
 export default function News() {
-	const [emblaRef, emblaApi] = useEmblaCarousel({
-		align: 'start',
-	})
-
-	const {
-		prevBtnDisabled,
-		nextBtnDisabled,
-		onPrevButtonClick,
-		onNextButtonClick,
-	} = usePrevNextButtons(emblaApi)
-
 	return (
 		<div className='w-full p-4 pt-8 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>
 			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>

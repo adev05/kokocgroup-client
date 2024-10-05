@@ -27,18 +27,18 @@ async function fetchUser(
 		)
 
 		if (!response.ok) {
-			throw new Error('Failed to fetch user.')
+			return null
 		}
 
 		const userData = await response.json()
 
 		if (!userData) {
-			throw new Error('Failed to fetch user.')
+			return null
 		}
 
 		return userData
 	} catch (error) {
-		console.error('Failed to fetch user:', error)
+		console.error('Ошибка авторизации:', error)
 		return null
 	}
 }
@@ -48,33 +48,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [
 		Credentials({
 			authorize: async credentials => {
-				// Валидация входных данных с помощью схемы
 				const parsedCredentials = userSchema.safeParse(credentials)
 
 				if (!parsedCredentials.success) {
 					console.log('Invalid credentials:', parsedCredentials.error)
-					throw new Error('Invalid credentials') // Используем исключение, как указано в примере
+					throw new Error('Invalid credentials')
 				}
 
 				const { login, password } = parsedCredentials.data
 
 				try {
-					// Здесь также можно использовать оригинальный запрос `request`, если нужно
-					// Например, для извлечения дополнительных данных из заголовков, куки и т.д.
-
-					// Вызов функции для получения пользователя
 					const user = await fetchUser(login, password)
 
 					if (!user) {
 						console.log('User not found or invalid credentials')
-						throw new Error('User not found') // Бросаем ошибку, если пользователь не найден
+						throw new Error('User not found')
 					}
 
-					// Возвращаем пользователя при успешной авторизации
 					return user
 				} catch (error) {
 					console.error('Error during authorization:', error)
-					throw new Error('Authorization failed') // Бросаем общее исключение при ошибке
+					throw new Error('Authorization failed')
 				}
 			},
 		}),

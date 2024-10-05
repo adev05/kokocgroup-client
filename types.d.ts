@@ -1,45 +1,43 @@
+import NextAuth, { DefaultSession } from 'next-auth'
 declare module 'next-auth' {
-	/**
-	 * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-	 */
-	interface Session {
-		user: {
-			/** The user's postal address. */
-			username: string
-			first_name: string
-			last_name: string
-			patronymic: string
-			date_of_birth: string
-			phone_number: string
-			/**
-			 * By default, TypeScript merges new interface properties and overwrites existing ones.
-			 * In this case, the default session user properties will be overwritten,
-			 * with the new ones defined above. To keep the default session user properties,
-			 * you need to add them back into the newly declared interface.
-			 */
-		} & DefaultSession['user']
-		access_token: string
+	interface User extends UserInterface {}
+	interface Session extends UserInterface {
+		access_token: {
+			token: string
+			expire_date: Date
+		}
+		refresh_token: {
+			token: string
+			expire_date: Date
+		}
 	}
+}
+
+interface UserInterface {
+	id: string
+	email: string
+	username: string
+	first_name: string
+	last_name: string
+	patronymic: string
+	date_of_birth: string
+	phone_number: string
+}
+
+declare module 'next-auth/adapters' {
+	interface AdapterUser extends UserInterface {}
 }
 
 import { JWT } from 'next-auth/jwt'
 declare module 'next-auth/jwt' {
-	interface JWT {
-		user: {
-			/** The user's postal address. */
-			username: string
-			first_name: string
-			last_name: string
-			patronymic: string
-			date_of_birth: string
-			phone_number: string
-			/**
-			 * By default, TypeScript merges new interface properties and overwrites existing ones.
-			 * In this case, the default session user properties will be overwritten,
-			 * with the new ones defined above. To keep the default session user properties,
-			 * you need to add them back into the newly declared interface.
-			 */
-		} & DefaultSession['user']
-		access_token: string
+	interface JWT extends UserInterface {
+		access_token: {
+			token: string
+			expire_date: Date
+		}
+		refresh_token: {
+			token: string
+			expire_date: Date
+		}
 	}
 }

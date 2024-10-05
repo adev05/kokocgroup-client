@@ -1,7 +1,4 @@
-'use client'
-
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import Logotype from './logotype'
 import { ModeToggle } from './ui/ModeToggle'
 import { Button } from '@/components/ui/button'
@@ -12,9 +9,10 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Bars3Icon } from '@heroicons/react/16/solid'
-import { SignIn } from './signin-button'
+import SignIn from './signin-button'
+import Navbar from './navbar'
 
-const headerComponents = [
+export const headerComponents = [
 	{
 		id: 0,
 		name: 'Новости',
@@ -48,23 +46,10 @@ const headerComponents = [
 ]
 
 export default function Header() {
-	const pathname = usePathname()
-
 	return (
 		<header className='flex mx-auto justify-between items-center p-[10px] m-[8px] w-[calc(100%-18px)] h-[60px] gap-2 sticky top-2 bg-background z-10 rounded-2xl'>
 			<Logotype variant='red' size='long' />
-			<nav className='hidden lg:block'>
-				{headerComponents.map(component => (
-					<Button
-						asChild
-						variant={pathname == component.link ? 'outline' : 'ghost'}
-						className='transition-colors mr-3'
-						key={component.id}
-					>
-						<Link href={component.link}>{component.name}</Link>
-					</Button>
-				))}
-			</nav>
+			<Navbar />
 			<div className='flex gap-2 items-center lg:w-[160px] justify-end'>
 				<ModeToggle />
 				<DropdownMenu>
@@ -85,7 +70,6 @@ export default function Header() {
 						))}
 					</DropdownMenuContent>
 				</DropdownMenu>
-				{/* <Bars3Icon className='size-6 xs:size-9 block lg:hidden cursor-pointer max-w-full h-auto' /> */}
 				<SignIn />
 			</div>
 		</header>

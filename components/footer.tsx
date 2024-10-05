@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import Logotype from './logotype'
 import Link from 'next/link'
 import Image from 'next/image'

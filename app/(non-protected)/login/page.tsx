@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import Logotype from '@/components/logotype'
 import { Button } from '@/components/ui/button'
@@ -8,6 +6,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { authenticate } from '@/app/lib/actions'
 import { useFormState } from 'react-dom'
+import { signIn } from '@/auth'
+import { redirect } from 'next/navigation'
+import { AuthError } from 'next-auth'
 
 export default function LoginPage() {
 	// const form = useForm<z.infer<typeof formSchema>>({
@@ -19,10 +20,7 @@ export default function LoginPage() {
 	// 	},
 	// })
 
-	const [errorMessage, formAction, isPending] = useFormState(
-		authenticate,
-		undefined
-	)
+	// const [errorMessage, formAction] = useFormState(authenticate, undefined)
 
 	// async function onSubmit(values: z.infer<typeof formSchema>) {
 	// 	console.log(
@@ -106,7 +104,24 @@ export default function LoginPage() {
 					</form>
 				</Form> */}
 
-				<form className='space-y-4' action={formAction}>
+				<form
+					className='space-y-4'
+					action={async formData => {
+						'use server'
+						try {
+							await signIn('credentials', {
+								login: formData.get('login'),
+								password: formData.get('password'),
+								redirectTo: '/dashboard',
+							})
+						} catch (error) {
+							if (error instanceof AuthError) {
+								return redirect(`/login?error=${error.type}`)
+							}
+							throw error
+						}
+					}}
+				>
 					<div className='space-y-4'>
 						<Input
 							id='login'
@@ -134,18 +149,17 @@ export default function LoginPage() {
 					<Button className='w-full' type='submit'>
 						Войти
 					</Button>
-					<div
+					{/* <div
 						className='flex h-8 items-end space-x-1'
 						aria-live='polite'
 						aria-atomic='true'
 					>
 						{errorMessage && (
 							<>
-								{/* <ExclamationCircleIcon className='h-5 w-5 text-red-500' /> */}
 								<p className='text-sm text-red-500'>{errorMessage}</p>
 							</>
 						)}
-					</div>
+					</div> */}
 					<Button asChild variant='link'>
 						<Link href='/register'>Нет аккаунта? Создать аккаунт</Link>
 					</Button>

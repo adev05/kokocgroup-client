@@ -1,27 +1,37 @@
-'use client'
+// 'use client'
 
+// import { SignOut } from '@/components/signout-button'
+// import { useSession } from 'next-auth/react'
+
+// export default function Dashboard() {
+// 	const { data: session, status } = useSession()
+
+// 	if (status === 'loading') return <div>Loading...</div>
+
+// 	if (!session) return <div>{status}</div>
+
+// 	return (
+// 		<>
+// 			<p>Dashboard</p>
+// 			<pre>{JSON.stringify(session, null, 2)}</pre>
+// 			<SignOut />
+// 		</>
+// 	)
+// }
+
+import { auth } from '@/auth'
 import { SignOut } from '@/components/signout-button'
-import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
 
-export default function Dashboard() {
-	const { data: session, status, update } = useSession()
+export default async function Dashboard() {
+	const session = await auth()
 
-	console.log('Dashboard')
-
-	useEffect(() => {
-		console.log('Dashboard update')
-	}, [status])
-
-	if (status === 'loading') return <div>Loading...</div>
-
-	if (!session) return <div>{status}</div>
+	if (!session) return null
 
 	return (
-		<>
+		<div className='h-[calc(100svh-76px)]'>
 			<p>Dashboard</p>
 			<pre>{JSON.stringify(session, null, 2)}</pre>
 			<SignOut />
-		</>
+		</div>
 	)
 }
