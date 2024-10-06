@@ -130,6 +130,9 @@ export const authOptions: NextAuthOptions = {
 				})
 			}
 		},
+		async session(message) {
+			console.log('session message', message)
+		},
 	},
 }
 export default NextAuth(authOptions)
