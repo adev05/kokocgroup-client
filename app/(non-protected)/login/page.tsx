@@ -1,14 +1,19 @@
+'use client'
+
 import Link from 'next/link'
 import Logotype from '@/components/logotype'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { authenticate } from '@/app/lib/actions'
-import { useFormState } from 'react-dom'
-import { signIn } from '@/auth'
-import { redirect } from 'next/navigation'
-import { AuthError } from 'next-auth'
+import { signIn } from 'next-auth/react'
+import { useRef } from 'react'
+
+// import { authenticate } from '@/app/lib/actions'
+// import { useFormState } from 'react-dom'
+// import { signIn } from '@/auth'
+// import { redirect } from 'next/navigation'
+// import { AuthError } from 'next-auth'
 
 export default function LoginPage() {
 	// const form = useForm<z.infer<typeof formSchema>>({
@@ -31,8 +36,17 @@ export default function LoginPage() {
 	// 			password: values.password,
 	// 		})
 	// 	)
-	// }
-
+	//
+	const login = useRef('')
+	const password = useRef('')
+	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		await signIn('credentials', {
+			login: login.current,
+			password: password.current,
+			// redirect: false,
+		})
+	}
 	return (
 		<div className='w-80 mx-auto h-[calc(100svh-76px)] content-center space-y-8'>
 			<div className='text-center space-y-8'>
@@ -106,21 +120,14 @@ export default function LoginPage() {
 
 				<form
 					className='space-y-4'
-					action={async formData => {
-						'use server'
-						try {
-							await signIn('credentials', {
-								login: formData.get('login'),
-								password: formData.get('password'),
-								redirectTo: '/dashboard',
-							})
-						} catch (error) {
-							if (error instanceof AuthError) {
-								return redirect(`/login?error=${error.type}`)
-							}
-							throw error
-						}
-					}}
+					onSubmit={onSubmit}
+					// onSubmit={async formData =>
+					// await signIn('credentials', {
+					// 	login: formData.login,
+					// 	password: formData.password,
+					// 	redirectTo: '/dashboard',
+					// })
+					// }
 				>
 					<div className='space-y-4'>
 						<Input
@@ -128,12 +135,14 @@ export default function LoginPage() {
 							type='text'
 							name='login'
 							placeholder='Введите логин или e-mail'
+							onChange={e => (login.current = e.target.value)}
 						/>
 						<Input
 							id='password'
 							type='password'
 							name='password'
 							placeholder='Введите пароль'
+							onChange={e => (password.current = e.target.value)}
 						/>
 					</div>
 					<div className='flex justify-between items-center'>

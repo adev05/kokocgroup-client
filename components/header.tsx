@@ -9,7 +9,6 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Bars3Icon } from '@heroicons/react/16/solid'
-import SignIn from './signin-button'
 import Navbar from './navbar'
 
 export const headerComponents = [
@@ -70,7 +69,10 @@ export default function Header() {
 						))}
 					</DropdownMenuContent>
 				</DropdownMenu>
-				<SignIn />
+				<Button asChild>
+					<Link href='/login'>Вход</Link>
+				</Button>
+				{/* <SignIn /> */}
 			</div>
 		</header>
 	)

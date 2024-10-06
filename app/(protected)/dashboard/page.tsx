@@ -1,4 +1,6 @@
-// 'use client'
+'use client'
+
+import { signOut, useSession } from 'next-auth/react'
 
 // import { SignOut } from '@/components/signout-button'
 // import { useSession } from 'next-auth/react'
@@ -19,19 +21,17 @@
 // 	)
 // }
 
-import { auth } from '@/auth'
-import { SignOut } from '@/components/signout-button'
+// import { auth } from '@/auth'
+// import { SignOut } from '@/components/signout-button'
 
-export default async function Dashboard() {
-	const session = await auth()
-
-	if (!session) return null
+export default function Dashboard() {
+	const { data: session } = useSession()
 
 	return (
 		<div className='h-[calc(100svh-76px)]'>
 			<p>Dashboard</p>
 			<pre>{JSON.stringify(session, null, 2)}</pre>
-			<SignOut />
+			<button onClick={() => signOut()}>sign out</button>
 		</div>
 	)
 }

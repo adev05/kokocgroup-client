@@ -4,7 +4,7 @@ import './globals.css'
 import { ThemeProvider } from 'next-themes'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
-import { SessionProvider } from 'next-auth/react'
+import AuthProvider from '@/context/AuthProvider'
 
 const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
@@ -19,9 +19,9 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<SessionProvider>
-			<html lang='en' suppressHydrationWarning>
-				<body className={`${montserrat.className} antialiased`}>
+		<html lang='en' suppressHydrationWarning>
+			<body className={`${montserrat.className} antialiased`}>
+				<AuthProvider>
 					<ThemeProvider
 						attribute='class'
 						defaultTheme='system'
@@ -32,8 +32,8 @@ export default function RootLayout({
 						{children}
 						<Footer />
 					</ThemeProvider>
-				</body>
-			</html>
-		</SessionProvider>
+				</AuthProvider>
+			</body>
+		</html>
 	)
 }
