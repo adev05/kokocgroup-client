@@ -115,7 +115,21 @@ export const authOptions: NextAuthOptions = {
 	},
 	session: {
 		strategy: 'jwt',
-		maxAge: 15 * 60, // 30 days
+		maxAge: 15 * 60, // 15 min
+	},
+	events: {
+		async signOut(message) {
+			console.log('signOut message:', message)
+			if ('token' in message) {
+				await fetch(process.env.SERVER_URL + '/v1/users/auth/logout', {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${message.token.refresh_token}`,
+					},
+				})
+			}
+		},
 	},
 }
 export default NextAuth(authOptions)
