@@ -21,7 +21,7 @@ export default function Shop() {
 	} = usePrevNextButtons(emblaApi)
 
 	return (
-		<div className='w-full p-4 pt-8 lg:p-16 xl:p-32'>
+		<div className='w-full container p-8 mx-auto'>
 			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
 					Магазин
@@ -85,35 +85,6 @@ export default function Shop() {
 					</div>
 				</div>
 			</div>
-			{/* <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-6 gap-6'>
-				{new Array(6).fill(0).map((_, index) => (
-					<div
-						className='flex flex-col rounded-xl overflow-hidden bg-[#F8F8F8]'
-						key={index}
-					>
-						<Image
-							src='/main-background.png'
-							alt='shop-item image'
-							width={1000}
-							height={1000}
-							className='w-full aspect-square object-cover'
-						/>
-						<div className='py-4 px-6 flex flex-col gap-6'>
-							<h1 className='font-medium text-lg line-clamp-2'>
-								Lorem Ipsum is simply dummy text of the printing and typesetting
-								industry.
-							</h1>
-							<h1 className='font-semibold text-xl line-clamp-2'>22 200₽</h1>
-							<Link
-								href='/'
-								className='bg-[#E32726] text-white font-semibold p-2 text-center rounded-xl w-full'
-							>
-								Купить
-							</Link>
-						</div>
-					</div>
-				))}
-			</div> */}
 		</div>
 	)
 }

@@ -47,30 +47,32 @@ export const headerComponents = [
 
 export default function Header() {
 	return (
-		<header className='flex mx-auto justify-between items-center p-[10px] m-[8px] w-[calc(100%-18px)] h-[60px] gap-2 sticky top-2 bg-background z-10 rounded-2xl'>
-			<Logotype variant='red' size='long' />
-			<Navbar />
-			<div className='flex gap-2 items-center lg:w-[160px] justify-end'>
-				<ModeToggle />
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant='ghost'
-							size='icon'
-							className='rounded-xl flex lg:hidden'
-						>
-							<Bars3Icon className='h-4 w-4' />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align='end'>
-						{headerComponents.map(component => (
-							<DropdownMenuItem key={component.id} asChild>
-								<Link href={component.link}>{component.name}</Link>
-							</DropdownMenuItem>
-						))}
-					</DropdownMenuContent>
-				</DropdownMenu>
-				<SignIn />
+		<header className='sticky top-0 bg-background z-10 py-3'>
+			<div className='container px-8 flex mx-auto justify-between items-center gap-2'>
+				<Logotype variant='red' size='long' />
+				<Navbar />
+				<div className='flex gap-2 items-center lg:w-[160px] justify-end'>
+					<ModeToggle />
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant='ghost'
+								size='icon'
+								className='rounded-xl flex lg:hidden'
+							>
+								<Bars3Icon className='h-4 w-4' />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end'>
+							{headerComponents.map(component => (
+								<DropdownMenuItem key={component.id} asChild>
+									<Link href={component.link}>{component.name}</Link>
+								</DropdownMenuItem>
+							))}
+						</DropdownMenuContent>
+					</DropdownMenu>
+					<SignIn />
+				</div>
 			</div>
 		</header>
 	)

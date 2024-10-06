@@ -4,8 +4,8 @@ import Image from 'next/image'
 
 export default function Footer() {
 	return (
-		<footer className='bg-black text-white p-[18px] pt-12 space-y-8'>
-			<div className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-[auto,1fr,auto] mx-auto justify-between gap-y-4 md:gap-12 w-full'>
+		<footer className='w-full mx-auto bg-black text-white space-y-8'>
+			<div className='container p-8  grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-[auto,1fr,auto] mx-auto justify-between gap-y-4 md:gap-12 w-full'>
 				<div className='space-y-4 min-w-72 text-center md:text-start'>
 					<div className='space-y-4 flex justify-center md:justify-start'>
 						<Logotype variant='white' size='long' />
@@ -90,14 +90,6 @@ export default function Footer() {
 									height={24}
 								/>
 							</Link>
-							{/* <Link href='/' target='_blank'>
-								<Image
-									src='/social/yt-logo.svg'
-									alt=''
-									width={24}
-									height={24}
-								/>
-							</Link> */}
 							<Link href='/' target='_blank'>
 								<Image
 									src='/social/vk-video-logo.svg'
@@ -107,14 +99,13 @@ export default function Footer() {
 									quality={100}
 								/>
 							</Link>
-							{/* <Button variant='ghost'>vk video</Button> */}
 						</div>
 					</div>
 				</div>
 			</div>
-			<p className='text-sm text-center md:text-start'>
+			{/* <p className='text-sm text-center md:text-start'>
 				© 2024 Футбольный клуб «Кокос Групп»{' '}
-			</p>
+			</p> */}
 		</footer>
 	)
 }
