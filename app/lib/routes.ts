@@ -8,6 +8,11 @@ export const publicRoutes = [
 	'/contacts',
 ]
 
+export const regexpPublicRoutes = [
+	/^\/(|news|team|matches|shop|about|contacts)(?!\.)$/,
+	/^\/news(?:\/([^\/\.]+))?$/,
+]
+
 export const authRoutes = ['/login', '/register']
 
 export const apiAuthPrefix = '/api/auth'

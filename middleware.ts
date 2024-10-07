@@ -4,6 +4,7 @@ import {
 	authRoutes,
 	DEFAULT_LOGIN_REDIRECT,
 	publicRoutes,
+	regexpPublicRoutes,
 } from './app/lib/routes'
 import { getToken } from 'next-auth/jwt'
 
@@ -13,7 +14,8 @@ export default async function middleware(req: NextRequest) {
 	const isLoggedIn = !!token
 
 	const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-	const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
+	// const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
+	const isPublicRoute = regexpPublicRoutes.some(r => r.test(nextUrl.pathname))
 	const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
 	if (isApiAuthRoute) {

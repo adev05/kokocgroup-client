@@ -1,5 +1,6 @@
 import { news } from '@/app/lib/placeholder-data'
 import NewsCard from '@/components/news/card'
+import { Button } from '@/components/ui/button'
 import {
 	Select,
 	SelectContent,
@@ -12,8 +13,8 @@ import {
 
 export default function NewsPage() {
 	return (
-		<div className='w-full container p-8 mx-auto'>
-			<div className='grid grid-cols-1 md:grid-cols-[1fr,auto] gap-6 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
+		<div className='w-full container p-8 mx-auto space-y-8'>
+			<div className='grid grid-cols-1 md:grid-cols-[1fr,auto] gap-6 justify-between items-center'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
 					Новости
 				</h1>
@@ -64,6 +65,13 @@ export default function NewsPage() {
 						</SelectContent>
 					</Select>
 				</div>
+			</div>
+			<div className='flex gap-2 items-center'>
+				<Button variant='outline'>Все новости</Button>
+				<Button variant='ghost'>Трансферы</Button>
+				<Button variant='ghost'>Интервью</Button>
+				<Button variant='ghost'>Матчи</Button>
+				<Button variant='ghost'>Пресс-релизы</Button>
 			</div>
 			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6'>
 				{/* {new Array(16).fill(0).map((_, index) => (
