@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { EyeIcon } from '@heroicons/react/24/outline'
-import { newsType } from '../main/news'
+import { newsType } from '@/app/lib/definitions'
 
 function formatDate(date: Date): string {
 	const now = new Date()
@@ -10,7 +10,6 @@ function formatDate(date: Date): string {
 	const diffHours = Math.floor(diffMin / 60) // Разница в часах
 	const diffDays = Math.floor(diffHours / 24) // Разница в днях
 	const diffMonths = Math.floor(diffDays / 30) // Разница в месяцах
-	const diffYears = Math.floor(diffDays / 365) // Разница в годах
 
 	if (diffHours < 24) {
 		// Меньше 24 часов
@@ -42,7 +41,7 @@ function formatDate(date: Date): string {
 
 export default function NewsCard({ item }: { item: newsType }) {
 	return (
-		<div className='w-full flex flex-col justify-end overflow-hidden cursor-pointer border rounded-3xl group/item hover:bg-secondary relative hover:[transform:scale(1.025)] [transition:transform_0.25s]'>
+		<div className='w-full flex flex-col justify-end overflow-hidden cursor-pointer border rounded-3xl relative hover:[transform:scale(1.025)] [transition:transform_0.25s]'>
 			<Image
 				src={item.image}
 				alt='news-background'
@@ -56,17 +55,20 @@ export default function NewsCard({ item }: { item: newsType }) {
 			</div> */}
 
 			<div className='px-4 pb-4 pt-2'>
-				<h3 className='line-clamp-2 font-medium text-start h-[2lh] mb-2'>
+				<h3 className='line-clamp-2 font-medium text-start h-[2lh] mb-2 text-base'>
 					{item.title}
 				</h3>
 				<div className='flex justify-between'>
 					<div className='text-xs font-light'>
-						#{item.tag} • {formatDate(item.date)}
+						{/* #{item.tag} • {formatDate(item.date)} */}#{item.tag} • тут будет
+						дата
 					</div>
 					<div className='flex gap-2'>
 						<div className='flex gap-1 items-center'>
 							<EyeIcon className='size-4 text-gray-400' />
-							<div className='text-xs font-light'>{item.views}</div>
+							<div className='text-xs font-light'>
+								{item.views.toLocaleString('ru')}
+							</div>
 						</div>
 					</div>
 				</div>

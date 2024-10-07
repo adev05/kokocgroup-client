@@ -9,7 +9,10 @@ export default function SignIn() {
 
 	return (
 		<Button asChild className='hidden xs:block'>
-			<Link href={status == 'authenticated' ? '/dashboard' : '/login'}>
+			<Link
+				href={status == 'authenticated' ? '/dashboard' : '/login'}
+				className='flex gap-2'
+			>
 				{status == 'authenticated' ? 'Профиль' : 'Войти'}
 			</Link>
 		</Button>

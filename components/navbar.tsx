@@ -9,12 +9,12 @@ export default function Navbar() {
 	const pathname = usePathname()
 
 	return (
-		<nav className='hidden lg:block'>
+		<nav className='hidden lg:block space-x-2'>
 			{headerComponents.map(component => (
 				<Button
 					asChild
 					variant={pathname == component.link ? 'outline' : 'ghost'}
-					className='transition-colors mr-3'
+					className='transition-colors'
 					key={component.id}
 				>
 					<Link href={component.link}>{component.name}</Link>

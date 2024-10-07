@@ -75,6 +75,7 @@ export const authOptions: NextAuthOptions = {
 			},
 			async authorize(credentials) {
 				const parsedCredentials = userSchema.safeParse(credentials)
+
 				if (!parsedCredentials.success) {
 					return null
 				}
@@ -103,7 +104,7 @@ export const authOptions: NextAuthOptions = {
 					return null
 				}
 
-				console.log(userData)
+				// console.log(userData)
 
 				return userData
 			},
@@ -131,7 +132,7 @@ export const authOptions: NextAuthOptions = {
 			}
 		},
 		async session(message) {
-			console.log('session message', message)
+			// console.log('session message', message)
 		},
 	},
 }

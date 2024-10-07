@@ -1,3 +1,5 @@
+import { news } from '@/app/lib/placeholder-data'
+import NewsCard from '@/components/news/card'
 import {
 	Select,
 	SelectContent,
@@ -6,11 +8,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import NewsCard from '@/components/news/card'
+// import NewsCard from '@/components/news/card'
 
 export default function NewsPage() {
 	return (
-		<div className='w-full px-4 py-2 lg:px-16 lg:py-8 xl:px-32 xl:py-16'>
+		<div className='w-full container p-8 mx-auto'>
 			<div className='grid grid-cols-1 md:grid-cols-[1fr,auto] gap-6 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
 					Новости
@@ -64,8 +66,11 @@ export default function NewsPage() {
 				</div>
 			</div>
 			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6'>
-				{new Array(16).fill(0).map((_, index) => (
-					<NewsCard key={index} />
+				{/* {new Array(16).fill(0).map((_, index) => (
+					<NewsCard />
+				))} */}
+				{news.map(item => (
+					<NewsCard item={item} key={item.id} />
 				))}
 			</div>
 		</div>
