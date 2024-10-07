@@ -7,23 +7,6 @@ import { news } from '@/app/lib/placeholder-data'
 
 export default function News() {
 	return (
-		// <div className='w-full p-4 pt-8 pb-0 lg:p-16 lg:pb-0 xl:p-32 xl:pb-0'>
-		// 	<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
-		// 		<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
-		// 			Новости
-		// 		</h1>
-		// 		<div className='flex items-center gap-2'>
-		// 			<Button asChild variant='outline'>
-		// 				<Link href='/news'>Показать всё</Link>
-		// 			</Button>
-		// 		</div>
-		// 	</div>
-		// 	<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6'>
-		// 		{new Array(8).fill(0).map((_, index) => (
-		// 			<NewsCard key={index} />
-		// 		))}
-		// 	</div>
-		// </div>
 		<div className='w-full container p-8 mx-auto'>
 			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
 				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
@@ -35,11 +18,8 @@ export default function News() {
 					</Button>
 				</div>
 			</div>
-			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6'>
-				{/* {new Array(8).fill(0).map((_, index) => (
-					<NewsCard key={index} />
-				))} */}
-				{news.map(item => (
+			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
+				{news.slice(0, 8).map(item => (
 					<NewsCard item={item} key={item.id} />
 				))}
 			</div>
