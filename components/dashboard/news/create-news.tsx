@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { DateTimePicker } from '@/components/ui/DateTimePicker'
-import Editor from '@/components/ui/editor'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -12,51 +11,169 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import { Block, BlockNoteEditor, locales, PartialBlock } from '@blocknote/core'
+import '@blocknote/core/fonts/inter.css'
+import { BlockNoteView } from '@blocknote/mantine'
+import '@blocknote/mantine/style.css'
 import { ru } from 'date-fns/locale'
-import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useEffect, useMemo, useState } from 'react'
+
+async function saveToStorage(jsonBlocks: Block[]) {
+	// Save contents to local storage. You might want to debounce this or replace
+	// with a call to your API / database.
+	localStorage.setItem('editorContent', JSON.stringify(jsonBlocks))
+}
+
+async function loadFromStorage() {
+	// Gets the previously stored editor contents.
+	const storageString = localStorage.getItem('editorContent')
+	return storageString
+		? (JSON.parse(storageString) as PartialBlock[])
+		: undefined
+}
+
+async function uploadFile(file: File) {
+	const body = new FormData()
+	body.append('file', file)
+
+	const ret = await fetch('https://tmpfiles.org/api/v1/upload', {
+		method: 'POST',
+		body: body,
+	})
+	return (await ret.json()).data.url.replace(
+		'tmpfiles.org/',
+		'tmpfiles.org/dl/'
+	)
+}
 
 export default function CreateNews() {
+	const { data: session } = useSession()
 	const [date, setDate] = useState<Date | undefined>(undefined)
 	const [title, setTitle] = useState<string>('')
 	const [content, setContent] = useState<string>('')
 	const [image, setImage] = useState<File | null>(null)
 	const [tag, setTag] = useState<string>('')
+	const [initialContent, setInitialContent] = useState<
+		PartialBlock[] | undefined | 'loading'
+	>('loading')
+
+	// Loads the previously stored editor contents.
+	useEffect(() => {
+		loadFromStorage().then(content => {
+			setInitialContent(content)
+		})
+	}, [])
+
+	const editor = useMemo(() => {
+		if (initialContent === 'loading') {
+			return undefined
+		}
+		return BlockNoteEditor.create({
+			initialContent,
+			dictionary: locales.ru,
+			uploadFile,
+		})
+	}, [initialContent])
+
+	if (editor === undefined) {
+		return 'Loading content...'
+	}
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		const formData = {
-			title,
-			news_date: date?.toISOString(),
-			content,
-			image_url: 'image_url', // image ? URL.createObjectURL(image) : null,
-			category_name: tag,
+		// const formData = {
+		// 	title,
+		// 	news_date: date?.toISOString(),
+		// 	content,
+		// 	image_url: 'image_url', // image ? URL.createObjectURL(image) : null,
+		// 	category_name: tag,
+		// }
+		if (!image) {
+			alert('Please select an image')
+			return
 		}
+
+		const formData = new FormData()
+		formData.append('image', image)
 
 		console.log(formData, image)
 
+		try {
+			const response = await fetch(
+				process.env.SERVER_URL + '/v1/files/images',
+				{
+					method: 'POST',
+					headers: {
+						Authorization: `Bearer ${session.access_token}`,
+					},
+					body: formData,
+				}
+			)
+
+			if (!response.ok) {
+				throw new Error('Network response was not ok')
+			}
+
+			const image_url = '/v1/files/' + (await response.json())
+
+			console.log('Success:', image_url)
+
+			const body = {
+				title,
+				news_date: date?.toISOString(),
+				content: JSON.stringify(editor.document),
+				image_url, // image ? URL.createObjectURL(image) : null,
+				category_name: tag,
+			}
+			try {
+				const response = await fetch(process.env.SERVER_URL + '/v1/news', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${session.access_token}`,
+					},
+					body: JSON.stringify(body),
+				})
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+
+				const data = await response.json()
+				console.log('Success:', data)
+			} catch (error) {
+				console.error('Error:', error)
+			}
+		} catch (error) {
+			console.error('Error:', error)
+		}
+
 		// 	try {
-		// 		const response = await fetch(
-		// 			'https://2f5c-91-218-92-2.ngrok-free.app/api/v1/news',
-		// 			{
-		// 				method: 'POST',
-		// 				headers: {
-		// 					'Content-Type': 'application/json',
-		// 					Authorization: `Bearer ${session.access_token}`,
-		// 				},
-		// 				body: JSON.stringify(formData),
-		// 			}
-		// 		)
+		// const response = await fetch(
+		// 	'https://655a-91-218-92-2.ngrok-free.app/api/v1/news',
+		// 	{
+		// 		method: 'POST',
+		// 		headers: {
+		// 			'Content-Type': 'application/json',
+		// 			Authorization: `Bearer ${session.access_token}`,
+		// 		},
+		// 		body: JSON.stringify(formData),
+		// 	}
+		// )
 
-		// 		if (!response.ok) {
-		// 			throw new Error('Network response was not ok')
-		// 		}
+		// if (!response.ok) {
+		// 	throw new Error('Network response was not ok')
+		// }
 
-		// 		const data = await response.json()
-		// 		console.log('Success:', data)
+		// const data = await response.json()
+		// console.log('Success:', data)
 		// 	} catch (error) {
 		// 		console.error('Error:', error)
 		// 	}
 	}
+
 	return (
 		<div className='container flex flex-col gap-2 mx-auto'>
 			<h1 className='text-2xl font-semibold mb-2'>Создание новости</h1>
@@ -78,7 +195,12 @@ export default function CreateNews() {
 							value={content}
 							onChange={e => setContent(e.target.value)}
 						/> */}
-					<Editor />
+					<BlockNoteView
+						editor={editor}
+						onChange={() => {
+							saveToStorage(editor.document)
+						}}
+					/>
 				</div>
 
 				<div>

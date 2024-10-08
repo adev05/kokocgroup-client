@@ -6,10 +6,9 @@
 export interface newsType {
 	id: number
 	title: string
-	image: string
-	tag: string
-	date: string
-	views: number
+	image_url: string
+	category_name: string
+	news_date: string
 	content: string
 }
 

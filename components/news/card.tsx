@@ -81,7 +81,7 @@ export default function NewsCard({ item }: { item: newsType }) {
 			className='w-full flex flex-col justify-start overflow-hidden cursor-pointer border rounded-3xl relative hover:[transform:scale(1.025)] [transition:transform_0.25s] p-2 pb-4 space-y-2'
 		>
 			<Image
-				src={item.image}
+				src={process.env.SERVER_URL + item.image_url}
 				alt='news-background'
 				width={1920}
 				height={1080}
