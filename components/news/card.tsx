@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { EyeIcon } from '@heroicons/react/24/outline'
 import { newsType } from '@/app/lib/definitions'
 import Link from 'next/link'
 
@@ -42,40 +41,59 @@ function formatDate(date: Date): string {
 
 export default function NewsCard({ item }: { item: newsType }) {
 	return (
+		// <Link
+		// 	href={`/news/${item.id}`}
+		// 	className='w-full flex flex-col justify-end overflow-hidden cursor-pointer border rounded-3xl relative hover:[transform:scale(1.025)] [transition:transform_0.25s]'
+		// >
+		// 	<Image
+		// 		src={item.image}
+		// 		alt='news-background'
+		// 		width={1920}
+		// 		height={1080}
+		// 		className='w-full max-w-full h-full object-cover'
+		// 	/>
+
+		// 	{/* <div className='px-3 py-1 bg-[rgba(21,21,21,0.75)] text-white absolute top-4 right-4 text-xs rounded-lg font-medium'>
+		// 		<p>Анонс</p>
+		// 	</div> */}
+
+		// 	<div className='px-4 pb-4 pt-2'>
+		// 		<h3 className='line-clamp-2 font-medium text-start h-[2lh] mb-2 text-base'>
+		// 			{item.title}
+		// 		</h3>
+		// 		<div className='flex justify-between'>
+		// 			<div className='text-xs font-light'>
+		// 				#{item.tag} • {formatDate(item.date)}
+		// 			</div>
+		// 			<div className='flex gap-2'>
+		// 				<div className='flex gap-1 items-center'>
+		// 					<EyeIcon className='size-4 text-gray-400' />
+		// 					<div className='text-xs font-light'>
+		// 						{item.views.toLocaleString('ru')}
+		// 					</div>
+		// 				</div>
+		// 			</div>
+		// 		</div>
+		// 	</div>
+		// </Link>
 		<Link
 			href={`/news/${item.id}`}
-			className='w-full flex flex-col justify-end overflow-hidden cursor-pointer border rounded-3xl relative hover:[transform:scale(1.025)] [transition:transform_0.25s]'
+			className='w-full flex flex-col justify-start overflow-hidden cursor-pointer border rounded-3xl relative hover:[transform:scale(1.025)] [transition:transform_0.25s] p-2 pb-4 space-y-2'
 		>
 			<Image
 				src={item.image}
 				alt='news-background'
 				width={1920}
 				height={1080}
-				className='w-full max-w-full h-full object-cover'
+				className='w-full max-w-full object-cover aspect-video rounded-2xl'
 			/>
 
-			{/* <div className='px-3 py-1 bg-[rgba(21,21,21,0.75)] text-white absolute top-4 right-4 text-xs rounded-lg font-medium'>
-				<p>Анонс</p>
-			</div> */}
-
-			<div className='px-4 pb-4 pt-2'>
-				<h3 className='line-clamp-2 font-medium text-start h-[2lh] mb-2 text-base'>
-					{item.title}
-				</h3>
-				<div className='flex justify-between'>
-					<div className='text-xs font-light'>
-						#{item.tag} • {formatDate(item.date)}
-					</div>
-					<div className='flex gap-2'>
-						<div className='flex gap-1 items-center'>
-							<EyeIcon className='size-4 text-gray-400' />
-							<div className='text-xs font-light'>
-								{item.views.toLocaleString('ru')}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<h3 className='line-clamp-1 text-base h-[1lh] px-2 font-medium'>
+				{item.title}
+			</h3>
+			<p className='line-clamp-2 text-sm text-muted-foreground px-2'>
+				{item.content}
+			</p>
 		</Link>
 	)
 }

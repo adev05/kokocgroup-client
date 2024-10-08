@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import NewsCard from '../news/card'
 import Link from 'next/link'
 import { news } from '@/app/lib/placeholder-data'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 export default function News() {
 	return (
@@ -13,8 +14,11 @@ export default function News() {
 					Новости
 				</h1>
 				<div className='flex items-center gap-2'>
-					<Button asChild variant='outline'>
-						<Link href='/news'>Показать всё</Link>
+					<Button asChild variant='secondary'>
+						<Link href='/news' className='space-x-2'>
+							<span>Показать всё</span>
+							<ChevronRightIcon className='size-4' />
+						</Link>
 					</Button>
 				</div>
 			</div>

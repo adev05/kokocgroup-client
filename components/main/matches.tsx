@@ -57,7 +57,7 @@ export default function Matches() {
 								className='embla__slide select-none flex-[0_0_calc(100%/1)] md:flex-[0_0_calc(100%/2)] xl:flex-[0_0_calc(100%/4)] min-w-72 xs:min-w-0'
 								key={index}
 							>
-								<div className='border rounded-2xl aspect-[0.975] hover:bg-secondary cursor-pointer transition-colors'>
+								<div className='border rounded-3xl aspect-[0.975] hover:bg-secondary cursor-pointer transition-colors'>
 									<div className='flex flex-col w-full justify-center items-center py-12 px-6 gap-12 h-full'>
 										<div className='mb-auto'>
 											<p className='uppercase text-xs font-medium text-center line-clamp-1'>

@@ -49,7 +49,7 @@ export default function Header() {
 	return (
 		<header className='sticky top-0 bg-background z-10 py-3'>
 			<div className='container px-8 flex mx-auto justify-between items-center gap-2'>
-				<Logotype variant='red' size='long' />
+				<Logotype size='long' />
 				<Navbar />
 				<div className='flex gap-2 items-center lg:w-[160px] justify-end'>
 					<ModeToggle />

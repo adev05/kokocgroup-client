@@ -3,9 +3,9 @@ module.exports = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'cdn4.cdn-telegram.org',
+				hostname: '*',
 				port: '',
-				pathname: '/file/**',
+				pathname: '/**',
 			},
 		],
 	},

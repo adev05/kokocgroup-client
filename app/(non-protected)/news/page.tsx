@@ -2,7 +2,6 @@ import { news } from '@/app/lib/placeholder-data'
 import NewsCard from '@/components/news/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
 	Select,
 	SelectContent,
@@ -11,14 +10,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { Separator } from '@/components/ui/separator'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 export default function NewsPage() {
 	return (
 		<div className='w-full container p-8 mx-auto space-y-8'>
 			<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>Новости</h1>
-			<div className='w-full rounded-2xl bg-secondary grid grid-rows-4 grid-cols-1 md:grid-cols-[repeat(3,auto),1fr] md:grid-rows-1 items-center gap-2 p-2 divide-x'>
+			<div className='w-full rounded-2xl bg-secondary grid grid-rows-4 grid-cols-1 md:grid-cols-[repeat(3,auto),1fr] md:grid-rows-1 items-center gap-2 p-2'>
 				<Select>
 					<SelectTrigger className='w-full md:w-24 shadow-none border-none !ring-0'>
 						<SelectValue placeholder='Год' />
@@ -93,7 +91,7 @@ export default function NewsPage() {
 				))}
 			</div>
 			<div className='flex'>
-				<Button variant='outline' className='mx-auto w-full'>
+				<Button variant='secondary' className='mx-auto w-full'>
 					Показать еще
 				</Button>
 			</div>

@@ -8,6 +8,12 @@ export interface newsType {
 	title: string
 	image: string
 	tag: string
-	date: Date
+	date: string
 	views: number
+	content: string
+}
+
+export interface teamType {
+	id: number
+	name: string
 }
