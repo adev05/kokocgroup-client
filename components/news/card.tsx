@@ -2,42 +2,42 @@ import Image from 'next/image'
 import { newsType } from '@/app/lib/definitions'
 import Link from 'next/link'
 
-function formatDate(date: Date): string {
-	const now = new Date()
-	const diffMs = now.getTime() - date.getTime() // Разница в миллисекундах
-	const diffSec = Math.floor(diffMs / 1000) // Разница в секундах
-	const diffMin = Math.floor(diffSec / 60) // Разница в минутах
-	const diffHours = Math.floor(diffMin / 60) // Разница в часах
-	const diffDays = Math.floor(diffHours / 24) // Разница в днях
-	const diffMonths = Math.floor(diffDays / 30) // Разница в месяцах
+// function formatDate(date: Date): string {
+// 	const now = new Date()
+// 	const diffMs = now.getTime() - date.getTime() // Разница в миллисекундах
+// 	const diffSec = Math.floor(diffMs / 1000) // Разница в секундах
+// 	const diffMin = Math.floor(diffSec / 60) // Разница в минутах
+// 	const diffHours = Math.floor(diffMin / 60) // Разница в часах
+// 	const diffDays = Math.floor(diffHours / 24) // Разница в днях
+// 	const diffMonths = Math.floor(diffDays / 30) // Разница в месяцах
 
-	if (diffHours < 24) {
-		// Меньше 24 часов
-		if (diffMin < 60) {
-			if (diffSec < 60) {
-				if (diffSec == 0) {
-					return 'только что'
-				}
-				return `${diffSec} сек назад`
-			}
-			return `${diffMin} мин назад`
-		}
-		return `${diffHours} ч назад`
-	} else if (diffDays < 30) {
-		// Меньше 30 дней
-		return `${diffDays} дн назад`
-	} else if (diffMonths < 6) {
-		// Меньше 6 месяцев
-		return `${diffMonths} мес назад`
-	} else {
-		// Больше полугода — форматируем дату
-		const day = date.getDate().toString().padStart(2, '0')
-		const month = (date.getMonth() + 1).toString().padStart(2, '0') // месяцы идут с 0
-		const year = date.getFullYear()
+// 	if (diffHours < 24) {
+// 		// Меньше 24 часов
+// 		if (diffMin < 60) {
+// 			if (diffSec < 60) {
+// 				if (diffSec == 0) {
+// 					return 'только что'
+// 				}
+// 				return `${diffSec} сек назад`
+// 			}
+// 			return `${diffMin} мин назад`
+// 		}
+// 		return `${diffHours} ч назад`
+// 	} else if (diffDays < 30) {
+// 		// Меньше 30 дней
+// 		return `${diffDays} дн назад`
+// 	} else if (diffMonths < 6) {
+// 		// Меньше 6 месяцев
+// 		return `${diffMonths} мес назад`
+// 	} else {
+// 		// Больше полугода — форматируем дату
+// 		const day = date.getDate().toString().padStart(2, '0')
+// 		const month = (date.getMonth() + 1).toString().padStart(2, '0') // месяцы идут с 0
+// 		const year = date.getFullYear()
 
-		return `${day}.${month}.${year}`
-	}
-}
+// 		return `${day}.${month}.${year}`
+// 	}
+// }
 
 export default function NewsCard({ item }: { item: newsType }) {
 	return (

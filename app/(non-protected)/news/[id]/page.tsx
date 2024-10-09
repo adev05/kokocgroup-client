@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { HeartIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 // import ReactMarkdown from 'react-markdown'
 import { BlockNoteView } from '@blocknote/mantine'
 import '@blocknote/core/fonts/inter.css'
@@ -38,7 +38,6 @@ export default function Page({ params }: { params: { id: number } }) {
 					throw new Error('Network response was not ok')
 				}
 				const data = await response.json()
-				console.log(data)
 				setInitialContent(JSON.parse(data.content) as PartialBlock[])
 				// console.log({ data })
 

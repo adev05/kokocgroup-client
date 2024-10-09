@@ -33,25 +33,10 @@ async function loadFromStorage() {
 		: undefined
 }
 
-async function uploadFile(file: File) {
-	const body = new FormData()
-	body.append('file', file)
-
-	const ret = await fetch('https://tmpfiles.org/api/v1/upload', {
-		method: 'POST',
-		body: body,
-	})
-	return (await ret.json()).data.url.replace(
-		'tmpfiles.org/',
-		'tmpfiles.org/dl/'
-	)
-}
-
 export default function CreateNews() {
 	const { data: session } = useSession()
 	const [date, setDate] = useState<Date | undefined>(undefined)
 	const [title, setTitle] = useState<string>('')
-	const [content, setContent] = useState<string>('')
 	const [image, setImage] = useState<File | null>(null)
 	const [tag, setTag] = useState<string>('')
 	const [initialContent, setInitialContent] = useState<
@@ -64,6 +49,41 @@ export default function CreateNews() {
 			setInitialContent(content)
 		})
 	}, [])
+
+	async function uploadFile(image: File) {
+		const formData = new FormData()
+		formData.append('image', image)
+
+		console.log('uploadFile', image, session)
+
+		try {
+			const response = await fetch(
+				process.env.SERVER_URL + '/v1/files/images',
+				{
+					method: 'POST',
+					headers: {
+						Authorization: `Bearer ${session.access_token}`,
+					},
+					body: formData,
+				}
+			)
+
+			console.log({ response })
+
+			if (!response.ok) {
+				throw new Error('Network response was not ok')
+			}
+
+			const image_url =
+				process.env.SERVER_URL + '/v1/files/images' + (await response.json())
+
+			console.log(image_url)
+
+			return image_url
+		} catch (error) {
+			console.error('Error:', error)
+		}
+	}
 
 	const editor = useMemo(() => {
 		if (initialContent === 'loading') {
@@ -116,7 +136,7 @@ export default function CreateNews() {
 				throw new Error('Network response was not ok')
 			}
 
-			const image_url = '/v1/files/' + (await response.json())
+			const image_url = '/v1/files/images' + (await response.json())
 
 			console.log('Success:', image_url)
 
@@ -142,6 +162,7 @@ export default function CreateNews() {
 				}
 
 				const data = await response.json()
+				// Удалять локалсторадж если создалась новость
 				console.log('Success:', data)
 			} catch (error) {
 				console.error('Error:', error)

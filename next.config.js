@@ -8,6 +8,12 @@ module.exports = {
 				pathname: '/api/**',
 			},
 			{
+				protocol: 'http',
+				hostname: '192.168.43.176',
+				port: '8000',
+				pathname: '/api/**',
+			},
+			{
 				protocol: 'https',
 				hostname: '*',
 				port: '',

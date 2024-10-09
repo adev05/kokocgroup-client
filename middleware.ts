@@ -3,7 +3,6 @@ import {
 	apiAuthPrefix,
 	authRoutes,
 	DEFAULT_LOGIN_REDIRECT,
-	publicRoutes,
 	regexpPublicRoutes,
 } from './app/lib/routes'
 import { getToken } from 'next-auth/jwt'

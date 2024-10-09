@@ -3,10 +3,38 @@
 import { Button } from '@/components/ui/button'
 import NewsCard from '../news/card'
 import Link from 'next/link'
-import { news } from '@/app/lib/placeholder-data'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState } from 'react'
+import { newsType } from '@/app/lib/definitions'
 
 export default function News() {
+	const [news, setNews] = useState<newsType[]>([])
+
+	useEffect(() => {
+		const fetchNews = async () => {
+			try {
+				const response = await fetch(
+					process.env.SERVER_URL + '/v1/news?limit=8&offset=0'
+				)
+
+				console.log({ response })
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+				const data = await response.json()
+				console.log(data)
+				// console.log({ data })
+
+				setNews(data)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
+		}
+
+		fetchNews()
+	}, [])
+
 	return (
 		<div className='w-full container p-8 mx-auto'>
 			<div className='flex flex-col md:flex-row gap-2 justify-between items-center mb-8 lg:mb-12 xl:mb-16'>
@@ -23,7 +51,7 @@ export default function News() {
 				</div>
 			</div>
 			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
-				{news.slice(0, 8).map(item => (
+				{news.map(item => (
 					<NewsCard item={item} key={item.id} />
 				))}
 			</div>
