@@ -11,6 +11,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import { useToast } from '@/hooks/use-toast'
 import { Block, BlockNoteEditor, locales, PartialBlock } from '@blocknote/core'
 import '@blocknote/core/fonts/inter.css'
 import { BlockNoteView } from '@blocknote/mantine'
@@ -25,6 +26,10 @@ async function saveToStorage(jsonBlocks: Block[]) {
 	localStorage.setItem('editorContent', JSON.stringify(jsonBlocks))
 }
 
+async function clearStorage() {
+	localStorage.removeItem('editorContent')
+}
+
 async function loadFromStorage() {
 	// Gets the previously stored editor contents.
 	const storageString = localStorage.getItem('editorContent')
@@ -33,8 +38,37 @@ async function loadFromStorage() {
 		: undefined
 }
 
+async function uploadFile(image: File, access_token?: string) {
+	const formData = new FormData()
+	formData.append('image', image)
+
+	console.log('uploadFile', image, access_token)
+	if (!access_token) return ''
+
+	const response = await fetch(process.env.SERVER_URL + '/v1/files/images', {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${access_token}`,
+		},
+		body: formData,
+	})
+
+	console.log({ response })
+
+	if (!response.ok) {
+		throw new Error('Network response was not ok')
+	}
+
+	const image_url =
+		process.env.SERVER_URL + '/v1/files/images' + (await response.json())
+
+	console.log(image_url)
+
+	return image_url
+}
+
 export default function CreateNews() {
-	const { data: session } = useSession()
+	const { data: session, status } = useSession({ required: true })
 	const [date, setDate] = useState<Date | undefined>(undefined)
 	const [title, setTitle] = useState<string>('')
 	const [image, setImage] = useState<File | null>(null)
@@ -42,6 +76,9 @@ export default function CreateNews() {
 	const [initialContent, setInitialContent] = useState<
 		PartialBlock[] | undefined | 'loading'
 	>('loading')
+	const { toast } = useToast()
+	const [offset, setOffset] = useState(0)
+	const LIMIT = 16
 
 	// Loads the previously stored editor contents.
 	useEffect(() => {
@@ -50,41 +87,6 @@ export default function CreateNews() {
 		})
 	}, [])
 
-	async function uploadFile(image: File) {
-		const formData = new FormData()
-		formData.append('image', image)
-
-		console.log('uploadFile', image, session)
-
-		try {
-			const response = await fetch(
-				process.env.SERVER_URL + '/v1/files/images',
-				{
-					method: 'POST',
-					headers: {
-						Authorization: `Bearer ${session.access_token}`,
-					},
-					body: formData,
-				}
-			)
-
-			console.log({ response })
-
-			if (!response.ok) {
-				throw new Error('Network response was not ok')
-			}
-
-			const image_url =
-				process.env.SERVER_URL + '/v1/files/images' + (await response.json())
-
-			console.log(image_url)
-
-			return image_url
-		} catch (error) {
-			console.error('Error:', error)
-		}
-	}
-
 	const editor = useMemo(() => {
 		if (initialContent === 'loading') {
 			return undefined
@@ -92,9 +94,19 @@ export default function CreateNews() {
 		return BlockNoteEditor.create({
 			initialContent,
 			dictionary: locales.ru,
-			uploadFile,
+			uploadFile: (image: File) => {
+				return uploadFile(image, session?.access_token)
+			},
 		})
 	}, [initialContent])
+
+	useEffect(() => {
+		console.log({ session, status })
+	}, [status])
+
+	if (status == 'loading') {
+		return <div>Loading...</div>
+	}
 
 	if (editor === undefined) {
 		return 'Loading content...'
@@ -103,13 +115,6 @@ export default function CreateNews() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		// const formData = {
-		// 	title,
-		// 	news_date: date?.toISOString(),
-		// 	content,
-		// 	image_url: 'image_url', // image ? URL.createObjectURL(image) : null,
-		// 	category_name: tag,
-		// }
 		if (!image) {
 			alert('Please select an image')
 			return
@@ -126,7 +131,7 @@ export default function CreateNews() {
 				{
 					method: 'POST',
 					headers: {
-						Authorization: `Bearer ${session.access_token}`,
+						Authorization: `Bearer ${session?.access_token}`,
 					},
 					body: formData,
 				}
@@ -136,7 +141,7 @@ export default function CreateNews() {
 				throw new Error('Network response was not ok')
 			}
 
-			const image_url = '/v1/files/images' + (await response.json())
+			const image_url = '/v1/files/images/' + (await response.json())
 
 			console.log('Success:', image_url)
 
@@ -144,7 +149,7 @@ export default function CreateNews() {
 				title,
 				news_date: date?.toISOString(),
 				content: JSON.stringify(editor.document),
-				image_url, // image ? URL.createObjectURL(image) : null,
+				image_url,
 				category_name: tag,
 			}
 			try {
@@ -152,7 +157,7 @@ export default function CreateNews() {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${session.access_token}`,
+						Authorization: `Bearer ${session?.access_token}`,
 					},
 					body: JSON.stringify(body),
 				})
@@ -163,6 +168,10 @@ export default function CreateNews() {
 
 				const data = await response.json()
 				// Удалять локалсторадж если создалась новость
+				toast({
+					description: 'Новость успешно создана!',
+				})
+				clearStorage()
 				console.log('Success:', data)
 			} catch (error) {
 				console.error('Error:', error)
@@ -170,29 +179,6 @@ export default function CreateNews() {
 		} catch (error) {
 			console.error('Error:', error)
 		}
-
-		// 	try {
-		// const response = await fetch(
-		// 	'https://655a-91-218-92-2.ngrok-free.app/api/v1/news',
-		// 	{
-		// 		method: 'POST',
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 			Authorization: `Bearer ${session.access_token}`,
-		// 		},
-		// 		body: JSON.stringify(formData),
-		// 	}
-		// )
-
-		// if (!response.ok) {
-		// 	throw new Error('Network response was not ok')
-		// }
-
-		// const data = await response.json()
-		// console.log('Success:', data)
-		// 	} catch (error) {
-		// 		console.error('Error:', error)
-		// 	}
 	}
 
 	return (
@@ -211,11 +197,6 @@ export default function CreateNews() {
 
 				<div>
 					<Label>Content</Label>
-					{/* <Textarea
-							placeholder='print content'
-							value={content}
-							onChange={e => setContent(e.target.value)}
-						/> */}
 					<BlockNoteView
 						editor={editor}
 						onChange={() => {

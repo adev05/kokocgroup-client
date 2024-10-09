@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import AuthProvider from '@/context/AuthProvider'
+import { Toaster } from '@/components/ui/toaster'
 
 const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
 					>
 						<Header />
 						{children}
+						<Toaster />
 						<Footer />
 					</ThemeProvider>
 				</AuthProvider>
