@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+// import { Montserrat } from 'next/font/google'
 import './globals.css'
 import '@blocknote/core/fonts/inter.css'
 import '@blocknote/mantine/style.css'
@@ -10,7 +10,7 @@ import AuthProvider from '@/context/AuthProvider'
 import { Toaster } from '@/components/ui/toaster'
 import localFont from 'next/font/local'
 
-const montserrat = Montserrat({ subsets: ['cyrillic'] })
+// const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
 const museoSans = localFont({
 	src: [

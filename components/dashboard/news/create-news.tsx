@@ -94,6 +94,7 @@ export default function CreateNews() {
 		if (initialContent === 'loading') {
 			return undefined
 		}
+		/* eslint-disable @typescript-eslint/no-explicit-any */
 		const schema = BlockNoteSchema.create({
 			blockSpecs: {
 				...defaultBlockSpecs,

@@ -10,7 +10,6 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
-import { HeartIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { BlockNoteView } from '@blocknote/mantine'
@@ -18,7 +17,6 @@ import { BlockNoteEditor, locales, PartialBlock } from '@blocknote/core'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDate } from '@/components/news/card'
 import TelegramIcon from '@/components/social/telegram'
-import YoutubeIcon from '@/components/social/youtube'
 import VKIcon from '@/components/social/vk'
 
 export default function Page({ params }: { params: { id: number } }) {

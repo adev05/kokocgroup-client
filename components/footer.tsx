@@ -1,6 +1,5 @@
 import Logotype from './logotype'
 import Link from 'next/link'
-import Image from 'next/image'
 import VKIcon from './social/vk'
 import TelegramIcon from './social/telegram'
 import { Button } from './ui/button'

@@ -1,8 +1,3 @@
-// export type User = {
-// 	id: string
-// 	login: string
-// }
-
 export interface newsType {
 	id: number
 	title: string

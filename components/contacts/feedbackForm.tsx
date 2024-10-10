@@ -7,8 +7,8 @@ export default function FeedbackForm() {
 			<div className='space-y-2'>
 				<h1 className='text-2xl font-medium'>Не пропусти ни одного матча!</h1>
 				<p className='text-base text-muted-foreground'>
-					Получай свежие новости, расписание и результаты матчей ФК "Кокос
-					Групп" прямо на почту!
+					Получай свежие новости, расписание и результаты матчей ФК &quot;Кокос
+					Групп&quot; прямо на почту!
 				</p>
 			</div>
 
