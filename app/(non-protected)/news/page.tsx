@@ -35,46 +35,53 @@ export default function NewsPage() {
 					throw new Error('Network response was not ok')
 				}
 				const data = await response.json()
+
+				console.log({ data })
+
 				if (data.length < LIMIT) {
 					setCanShowMore(false)
 				} else {
-					setOffset(prevOffset => prevOffset + LIMIT)
+					// setOffset(prevOffset => prevOffset + LIMIT)
 				}
 
-				setNews(data)
+				if (news.length < LIMIT) {
+					setNews(data)
+				} else {
+					setNews(prevNews => [...prevNews, ...data])
+				}
 			} catch (error) {
 				console.error('There was a problem with the fetch operation:', error)
 			}
 		}
 
 		fetchNews()
-	}, [])
+	}, [offset])
 
-	async function showMore() {
-		console.log(offset, LIMIT)
+	// async function showMore() {
+	// 	console.log(offset, LIMIT)
 
-		try {
-			const response = await fetch(
-				`${process.env.SERVER_URL}/v1/news?offset=${offset}&limit=${LIMIT}`
-			)
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${process.env.SERVER_URL}/v1/news?offset=${offset}&limit=${LIMIT}`
+	// 		)
 
-			console.log({ response })
+	// 		console.log({ response })
 
-			if (!response.ok) {
-				throw new Error('Network response was not ok')
-			}
-			const data = await response.json()
-			if (data.length < LIMIT) {
-				setCanShowMore(false)
-			} else {
-				setOffset(prevOffset => prevOffset + LIMIT)
-			}
+	// 		if (!response.ok) {
+	// 			throw new Error('Network response was not ok')
+	// 		}
+	// 		const data = await response.json()
+	// 		if (data.length < LIMIT) {
+	// 			setCanShowMore(false)
+	// 		} else {
+	// 			setOffset(prevOffset => prevOffset + LIMIT)
+	// 		}
 
-			setNews(prevNews => [...prevNews, ...data])
-		} catch (error) {
-			console.error('There was a problem with the fetch operation:', error)
-		}
-	}
+	// 		setNews(prevNews => [...prevNews, ...data])
+	// 	} catch (error) {
+	// 		console.error('There was a problem with the fetch operation:', error)
+	// 	}
+	// }
 
 	return (
 		<div className='w-full container p-8 mx-auto space-y-8'>
@@ -165,7 +172,7 @@ export default function NewsPage() {
 							<Button
 								variant='secondary'
 								className='mx-auto w-full'
-								onClick={showMore}
+								onClick={() => setOffset(offset + LIMIT)}
 							>
 								Показать еще
 							</Button>

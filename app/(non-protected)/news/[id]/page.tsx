@@ -98,7 +98,7 @@ export default function Page({ params }: { params: { id: number } }) {
 				alt='news-background'
 				width={1920}
 				height={1080}
-				className='w-full max-w-full object-cover aspect-video rounded-2xl'
+				className='h-96 w-auto object-cover rounded-2xl'
 			/>
 			<div>
 				<BlockNoteView editor={editor} editable={false} />

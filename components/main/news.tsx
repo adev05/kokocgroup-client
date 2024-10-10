@@ -50,7 +50,7 @@ export default function News() {
 					</Button>
 				</div>
 			</div>
-			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
+			<div className='grid grid-cols-1 grid-rows-3 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 gap-4'>
 				{news.map(item => (
 					<NewsCard item={item} key={item.id} />
 				))}
