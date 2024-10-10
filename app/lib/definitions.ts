@@ -12,7 +12,22 @@ export interface newsType {
 	content: string
 }
 
+export interface playerType {
+	user_id: number
+	avatar_url?: string
+	date_of_birth: Date
+	first_name: string
+	last_name: string
+	height?: string
+	weight?: string
+	position: string
+}
+
 export interface teamType {
-	id: number
-	name: string
+	trainers: playerType[]
+	goalkeepers: playerType[]
+	defenders: playerType[]
+	midfielders: playerType[]
+	strikers: playerType[]
+	admins: playerType[]
 }

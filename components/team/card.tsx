@@ -1,20 +1,24 @@
-import { teamType } from '@/app/lib/definitions'
+import { playerType } from '@/app/lib/definitions'
 import Image from 'next/image'
+import Link from 'next/link'
 
-export default function TeamCard({ item }: { item: teamType }) {
+export default function TeamCard({ item }: { item: playerType }) {
 	return (
-		<div className='text-center border rounded-2xl overflow-hidden'>
-			<Image
-				src='/player-image.png'
-				alt=''
-				width={300}
-				height={300}
-				className='aspect-square object-cover object-top mx-auto bg-[#F8F8F8] p-4 pb-0 w-full'
-			/>
-			<div className='px-2 py-4'>
-				<h1 className='text-xl leading-5 font-semibold'>Имя Фамилия</h1>
-				<h3 className='uppercase text-xs mt-2'>Главный тренер</h3>
-			</div>
-		</div>
+		<Link
+			href={`/users/${item.user_id}`}
+			className='text-center border rounded-2xl overflow-hidden p-2 space-y-4 pb-4 hover:[transform:scale(1.025)] [transition:transform_0.25s]'
+		>
+			{item.avatar_url && (
+				<Image
+					src={item.avatar_url}
+					alt={`${item.first_name} ${item.last_name}`}
+					width={450}
+					height={450}
+					className='rounded-xl aspect-square object-cover object-top mx-auto bg-[#FFFFFD] w-full'
+				/>
+			)}
+			<h1 className='text-xl leading-5 font-semibold'>{`${item.first_name} ${item.last_name}`}</h1>
+			<h3 className='uppercase text-xs mt-2'>{item.position}</h3>
+		</Link>
 	)
 }

@@ -14,6 +14,12 @@ module.exports = {
 				pathname: '/api/**',
 			},
 			{
+				protocol: 'http',
+				hostname: 'lfl.ru',
+				port: '',
+				pathname: '/photo/**',
+			},
+			{
 				protocol: 'https',
 				hostname: '*',
 				port: '',
