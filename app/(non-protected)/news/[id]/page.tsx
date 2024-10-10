@@ -13,11 +13,13 @@ import { Button } from '@/components/ui/button'
 import { HeartIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-// import ReactMarkdown from 'react-markdown'
 import { BlockNoteView } from '@blocknote/mantine'
-import '@blocknote/core/fonts/inter.css'
-import '@blocknote/mantine/style.css'
 import { BlockNoteEditor, locales, PartialBlock } from '@blocknote/core'
+import { Skeleton } from '@/components/ui/skeleton'
+import { formatDate } from '@/components/news/card'
+import TelegramIcon from '@/components/social/telegram'
+import YoutubeIcon from '@/components/social/youtube'
+import VKIcon from '@/components/social/vk'
 
 export default function Page({ params }: { params: { id: number } }) {
 	const [news, setNews] = useState<newsType>()
@@ -52,8 +54,42 @@ export default function Page({ params }: { params: { id: number } }) {
 		fetchNews()
 	}, [])
 
+	function shareTelegram() {
+		window.open(
+			`https://telegram.me/share/url?url=${process.env.SERVER_URL}/news/${params.id}&text=${news?.title}`
+		)
+	}
+
+	function shareVK() {
+		window.open(
+			`https://vk.com/share.php?url=${process.env.SERVER_URL}/news/${params.id}&title=${news?.title}`
+		)
+	}
+
 	if (loading) {
-		return <p>Loading...</p>
+		return (
+			<div className='w-full container p-8 mx-auto space-y-8 min-h-[calc(100svh-60px)]'>
+				<Breadcrumb>
+					<BreadcrumbList>
+						<BreadcrumbItem>
+							<BreadcrumbLink href='/news'>Новости</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<Skeleton className='h-4 w-64' />
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
+				<Skeleton className='h-6 w-full my-2' />
+				<Skeleton className='w-32 h-4' />
+				<Skeleton className='w-3/4 aspect-video rounded-2xl mx-auto' />
+				<Skeleton className='w-3/4 h-6' />
+				<Skeleton className='w-1/2 h-4' />
+				<Skeleton className='w-1/4 h-4' />
+				<Skeleton className='w-full h-4' />
+				<Skeleton className='w-1/5 h-4' />
+			</div>
+		)
 	}
 
 	if (!news) return <div>Ничего не найдено</div>
@@ -68,7 +104,7 @@ export default function Page({ params }: { params: { id: number } }) {
 	}
 
 	return (
-		<div className='w-full container p-8 mx-auto space-y-8'>
+		<div className='w-full container p-8 mx-auto space-y-8 min-h-[calc(100svh-60px)]'>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
@@ -80,28 +116,46 @@ export default function Page({ params }: { params: { id: number } }) {
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
-			<div className='flex items-center justify-between'>
-				<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
-					{news.title}
-				</h1>
-				<div className='space-x-2'>
-					<Button variant='outline' size='icon'>
-						<HeartIcon className='size-4' />
-					</Button>
-					<Button variant='outline' size='icon'>
-						<PaperAirplaneIcon className='size-4' />
-					</Button>
-				</div>
-			</div>
+			<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>
+				{news.title}
+			</h1>
+			<p className='text-muted-foreground'>{formatDate(news.news_date)}</p>
 			<Image
 				src={process.env.SERVER_URL + news.image_url}
-				alt='news-background'
+				alt={news.title}
 				width={1920}
 				height={1080}
-				className='h-96 w-auto object-cover rounded-2xl'
+				className='h-full w-3/4 rounded-2xl object-cover mx-auto'
 			/>
 			<div>
-				<BlockNoteView editor={editor} editable={false} />
+				<BlockNoteView
+					editor={editor}
+					editable={false}
+					formattingToolbar={false}
+					linkToolbar={false}
+					filePanel={false}
+					sideMenu={false}
+					slashMenu={false}
+					tableHandles={false}
+					className='p-0'
+				/>
+			</div>
+			<div className='grid grid-cols-1 sm:grid-cols-[auto,1fr] gap-4 sm:gap-16'>
+				<div className='space-y-4'>
+					<h3 className='text-xl font-medium'>Категория</h3>
+					<p>#{news.category_name}</p>
+				</div>
+				<div className='space-y-4'>
+					<h3 className='text-xl font-medium'>Поделиться</h3>
+					<div className='space-x-2'>
+						<Button onClick={shareTelegram}>
+							<TelegramIcon />
+						</Button>
+						<Button onClick={shareVK}>
+							<VKIcon />
+						</Button>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

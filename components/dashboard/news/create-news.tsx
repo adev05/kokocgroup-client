@@ -12,10 +12,15 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
-import { Block, BlockNoteEditor, locales, PartialBlock } from '@blocknote/core'
-import '@blocknote/core/fonts/inter.css'
+import {
+	Block,
+	BlockNoteEditor,
+	BlockNoteSchema,
+	defaultBlockSpecs,
+	locales,
+	PartialBlock,
+} from '@blocknote/core'
 import { BlockNoteView } from '@blocknote/mantine'
-import '@blocknote/mantine/style.css'
 import { ru } from 'date-fns/locale'
 import { useSession } from 'next-auth/react'
 import { useEffect, useMemo, useState } from 'react'
@@ -60,7 +65,7 @@ async function uploadFile(image: File, access_token?: string) {
 	}
 
 	const image_url =
-		process.env.SERVER_URL + '/v1/files/images' + (await response.json())
+		process.env.SERVER_URL + '/v1/files/images/' + (await response.json())
 
 	console.log(image_url)
 
@@ -69,7 +74,7 @@ async function uploadFile(image: File, access_token?: string) {
 
 export default function CreateNews() {
 	const { data: session, status } = useSession({ required: true })
-	const [date, setDate] = useState<Date | undefined>(undefined)
+	const [date, setDate] = useState<Date | undefined>(new Date())
 	const [title, setTitle] = useState<string>('')
 	const [image, setImage] = useState<File | null>(null)
 	const [tag, setTag] = useState<string>('')
@@ -77,8 +82,6 @@ export default function CreateNews() {
 		PartialBlock[] | undefined | 'loading'
 	>('loading')
 	const { toast } = useToast()
-	const [offset, setOffset] = useState(0)
-	const LIMIT = 16
 
 	// Loads the previously stored editor contents.
 	useEffect(() => {
@@ -91,14 +94,23 @@ export default function CreateNews() {
 		if (initialContent === 'loading') {
 			return undefined
 		}
+		const schema = BlockNoteSchema.create({
+			blockSpecs: {
+				...defaultBlockSpecs,
+				audio: undefined as any,
+				video: undefined as any,
+				file: undefined as any,
+			},
+		})
 		return BlockNoteEditor.create({
+			schema,
 			initialContent,
 			dictionary: locales.ru,
 			uploadFile: (image: File) => {
 				return uploadFile(image, session?.access_token)
 			},
 		})
-	}, [initialContent])
+	}, [initialContent, status])
 
 	useEffect(() => {
 		console.log({ session, status })
@@ -196,22 +208,23 @@ export default function CreateNews() {
 				</div>
 
 				<div>
-					<Label>Content</Label>
-					<BlockNoteView
-						editor={editor}
-						onChange={() => {
-							saveToStorage(editor.document)
-						}}
-					/>
-				</div>
-
-				<div>
 					<Label>Image</Label>
 					<Input
 						placeholder='select an image'
 						type='file'
 						accept='image/png, image/jpeg'
 						onChange={e => setImage(e.target.files?.[0] || null)}
+					/>
+				</div>
+
+				<div>
+					<Label>Content</Label>
+					<BlockNoteView
+						editor={editor}
+						onChange={() => {
+							saveToStorage(editor.document)
+						}}
+						className='border rounded-2xl px-[54px] py-4'
 					/>
 				</div>
 
@@ -229,16 +242,15 @@ export default function CreateNews() {
 					<Label>Tag</Label>
 					<Select value={tag} onValueChange={setTag}>
 						<SelectTrigger className=''>
-							<SelectValue placeholder='Select a tag' />
+							<SelectValue placeholder='Выберите категорию' />
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								<SelectLabel>Tags</SelectLabel>
-								<SelectItem value='match'>Матч</SelectItem>
-								<SelectItem value='reward'>Награды</SelectItem>
-								<SelectItem value='transfer'>Трансферы</SelectItem>
-								<SelectItem value='tournament'>Турниры</SelectItem>
-								<SelectItem value='sponsor'>Спонсоры</SelectItem>
+								<SelectLabel>Категории</SelectLabel>
+								<SelectItem value='Пресс-релиз'>Пресс-релиз</SelectItem>
+								<SelectItem value='Статья'>Статья</SelectItem>
+								<SelectItem value='Трансфер'>Трансфер</SelectItem>
+								<SelectItem value='Интервью'>Интервью</SelectItem>
 							</SelectGroup>
 						</SelectContent>
 					</Select>

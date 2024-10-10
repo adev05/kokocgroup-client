@@ -119,6 +119,12 @@ body {
 	}
 }
 
+.bn-editor {
+	background-color: transparent !important;
+	color: unset !important;
+	padding: 0 !important;
+}
+
 .embla {
 	--slide-height: 19rem;
 

@@ -3,7 +3,7 @@ import Image from 'next/image'
 export default function Main() {
 	return (
 		<>
-			<div className='mx-auto text-center content-center w-full h-[calc(100svh-60px)] bg-[linear-gradient(to_bottom,hsl(var(--background)),transparent),linear-gradient(to_top,hsl(var(--background)),transparent),url("/main-background-new.png")] bg-center bg-no-repeat bg-cover'>
+			<div className='mx-auto text-center content-center w-full h-[calc(100svh-60px)] bg-[linear-gradient(to_bottom,hsl(var(--background)),transparent),linear-gradient(to_top,hsl(var(--background)),transparent)] bg-center bg-no-repeat bg-cover relative'>
 				<div className='mx-auto px-4'>
 					<p className='font-light text-[clamp(0rem,4vw,4rem)] tracking-[clamp(0rem,4vw,4rem)] mb-[1rem] md:text-[1.5rem] md:tracking-[1rem] md:mb-[1rem] xl:text-[2rem] xl:tracking-[1.5rem] xl:mb-[1.5rem]'>
 						ФУТБОЛЬНЫЙ КЛУБ
@@ -35,6 +35,15 @@ export default function Main() {
 						ГРУПП
 					</p>
 				</div>
+				<Image
+					src='/main-background-new.png'
+					alt='main-background'
+					width={1920}
+					height={1080}
+					className='w-full h-full absolute top-0 object-cover -z-10'
+					quality={100}
+					priority={true}
+				/>
 			</div>
 		</>
 	)

@@ -1,6 +1,9 @@
 import Logotype from './logotype'
 import Link from 'next/link'
 import Image from 'next/image'
+import VKIcon from './social/vk'
+import TelegramIcon from './social/telegram'
+import { Button } from './ui/button'
 
 export default function Footer() {
 	return (
@@ -74,23 +77,17 @@ export default function Footer() {
 					<div className='space-y-2'>
 						<p className='text-sm text-muted-foreground'>Социальные сети:</p>
 						<div className='flex items-center gap-2 justify-center'>
-							<Link href='/' target='_blank'>
-								<Image
-									src='/social/vk-logo.svg'
-									alt=''
-									width={24}
-									height={24}
-								/>
-							</Link>
-							<Link href='/' target='_blank'>
-								<Image
-									src='/social/tg-logo.svg'
-									alt=''
-									width={24}
-									height={24}
-								/>
-							</Link>
-							<Link href='/' target='_blank'>
+							<Button asChild>
+								<Link href='/' target='_blank'>
+									<VKIcon />
+								</Link>
+							</Button>
+							<Button asChild>
+								<Link href='https://t.me/fckokocgroup' target='_blank'>
+									<TelegramIcon />
+								</Link>
+							</Button>
+							{/* <Link href='/' target='_blank'>
 								<Image
 									src='/social/vk-video-logo.svg'
 									alt=''
@@ -98,7 +95,7 @@ export default function Footer() {
 									height={24}
 									quality={100}
 								/>
-							</Link>
+							</Link> */}
 						</div>
 					</div>
 				</div>

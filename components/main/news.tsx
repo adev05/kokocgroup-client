@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { newsType } from '@/app/lib/definitions'
+import NewsLoadingCard from '../news/loading-card'
 
 export default function News() {
 	const [news, setNews] = useState<newsType[]>([])
@@ -51,9 +52,11 @@ export default function News() {
 				</div>
 			</div>
 			<div className='grid grid-cols-1 grid-rows-3 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 gap-4'>
-				{news.map(item => (
-					<NewsCard item={item} key={item.id} />
-				))}
+				{news.length > 0
+					? news.map(item => <NewsCard item={item} key={item.id} />)
+					: new Array(8)
+							.fill(0)
+							.map((_, index) => <NewsLoadingCard key={index} />)}
 			</div>
 		</div>
 	)
