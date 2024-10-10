@@ -6,7 +6,7 @@ export default function TeamCard({ item }: { item: playerType }) {
 	return (
 		<Link
 			href={`/users/${item.user_id}`}
-			className='text-center border rounded-2xl overflow-hidden p-2 space-y-4 pb-4 hover:[transform:scale(1.025)] [transition:transform_0.25s]'
+			className='text-center min-w-64 border rounded-2xl overflow-hidden p-2 space-y-4 pb-4 hover:[transform:scale(1.025)] [transition:transform_0.25s]'
 		>
 			{item.avatar_url && (
 				<Image

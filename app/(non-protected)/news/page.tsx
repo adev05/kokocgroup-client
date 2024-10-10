@@ -150,7 +150,7 @@ export default function NewsPage() {
 	return (
 		<div className='w-full container p-8 mx-auto space-y-8 min-h-[calc(100svh-60px)]'>
 			<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>Новости</h1>
-			<div className='w-full rounded-2xl bg-secondary grid grid-rows-4 grid-cols-1 md:grid-cols-[repeat(3,auto),1fr] md:grid-rows-1 items-center gap-2 p-2'>
+			<div className='w-full min-w-64 rounded-2xl bg-secondary grid grid-rows-4 grid-cols-1 md:grid-cols-[repeat(3,auto),1fr] md:grid-rows-1 items-center gap-2 p-2'>
 				<Select
 					value={year}
 					onValueChange={value => {
