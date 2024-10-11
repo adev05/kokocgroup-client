@@ -27,11 +27,9 @@ export default function NewsCard({ item }: { item: newsType }) {
 			<h3 className='line-clamp-1 text-base h-[1lh] px-2 font-medium'>
 				{item.title}
 			</h3>
-			<div className='flex items-center gap-1 px-2'>
-				<p className='line-clamp-1 text-sm text-muted-foreground'>
-					{`#${item.category_name} • ${formatDate(item.news_date)}`}
-				</p>
-			</div>
+			<p className='line-clamp-1 text-sm text-muted-foreground'>
+				{`#${item.category_name} · ${formatDate(item.news_date)}`}
+			</p>
 		</Link>
 	)
 }

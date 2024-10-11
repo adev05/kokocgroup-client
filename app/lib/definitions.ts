@@ -29,21 +29,26 @@ export interface teamType {
 
 export interface matchesType {
 	id: number
-	opponent: {
+	league: string
+	tour: string
+	start_date: Date
+	end_date: Date
+	first_team: {
 		id: number
 		name: string
-		count: number
+		logo_url: string
+		score: number
 	}
-	count: number
-	status: 'past' | 'current' | 'future'
-	// if current it will be url to stream else url to video:
-	video_url?: string
-	date: string
-	players: [
-		{
-			id: number
-			name: string
-			// info about player... like /api/v1/team
-		}
-	]
+	second_team: {
+		id: number
+		name: string
+		logo_url: string
+		score: number
+	}
+	location_name: string
+	location_address: string
+}
+
+export interface shopType {
+	id: number
 }
