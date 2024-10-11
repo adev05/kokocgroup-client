@@ -10,6 +10,7 @@ import {
 import Image from 'next/image'
 import DashboardNavbar from '@/components/dashboard-navbar'
 import { ModeToggle } from '@/components/ui/ModeToggle'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function ProtectedLayout({
 	children,
@@ -29,7 +30,7 @@ export default function ProtectedLayout({
 
 				<div className='grid gap-y-4 md:gap-y-0 grid-cols-1 grid-rows-[auto,auto] md:grid-cols-[auto,1fr] lg:grid-cols-[auto,1fr,auto] items-center'>
 					<div className='grid justify-center text-center md:text-start grid-cols-1 md:grid-cols-[auto,auto] gap-4 items-center md:ml-8'>
-						{session?.user.avatar_url && (
+						{/* {session?.user.avatar_url && (
 							<Image
 								src={session?.user.avatar_url}
 								alt={`${session?.user.first_name} ${session?.user.last_name}`}
@@ -38,7 +39,11 @@ export default function ProtectedLayout({
 								className='aspect-square object-cover rounded-full w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto -mt-[56px] sm:-mt-[72px] md:-mt-[88px] outline-secondary outline-4 outline'
 								quality={100}
 							/>
-						)}
+						)} */}
+						<Avatar className='w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto -mt-[56px] sm:-mt-[72px] md:-mt-[88px] outline-secondary outline-4 outline bg-secondary'>
+							<AvatarImage src={session?.user.avatar_url} className='' />
+							<AvatarFallback>{`${session?.user.first_name[0]} ${session?.user.last_name[0]}`}</AvatarFallback>
+						</Avatar>
 						{/* <Image
 							src={session?.user.avatar_url}
 							alt={`${session?.user.first_name} ${session?.user.last_name}`}

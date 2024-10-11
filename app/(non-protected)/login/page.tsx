@@ -48,7 +48,7 @@ export default function LoginPage() {
 		})
 	}
 	return (
-		<div className='w-80 mx-auto h-[calc(100svh-60px)] content-center space-y-8'>
+		<div className='min-w-64 max-w-96 p-8 mx-auto min-h-[calc(100svh-60px)] content-center space-y-8'>
 			<div className='text-center space-y-8'>
 				<Logotype size='short' />
 				<h1 className='text-2xl font-semibold'>Вход в аккаунт</h1>
@@ -145,7 +145,7 @@ export default function LoginPage() {
 							onChange={e => (password.current = e.target.value)}
 						/>
 					</div>
-					<div className='flex justify-between items-center'>
+					{/* <div className='flex justify-between items-center'>
 						<div className='flex items-center space-x-2'>
 							<Checkbox id='remember_me' />
 							<Label htmlFor='remember_me'>Запомнить меня</Label>
@@ -154,7 +154,7 @@ export default function LoginPage() {
 						<Button variant='link'>
 							<Link href='/'>Забыли пароль?</Link>
 						</Button>
-					</div>
+					</div> */}
 					<Button className='w-full' type='submit'>
 						Войти
 					</Button>
