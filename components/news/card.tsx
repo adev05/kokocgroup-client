@@ -21,13 +21,13 @@ export default function NewsCard({ item }: { item: newsType }) {
 				alt='news-background'
 				width={1920}
 				height={1080}
-				className='w-full max-w-full object-cover aspect-video rounded-2xl'
+				className='w-full max-w-full object-cover aspect-video rounded-2xl bg-secondary'
 			/>
 
 			<h3 className='line-clamp-1 text-base h-[1lh] px-2 font-medium'>
 				{item.title}
 			</h3>
-			<p className='line-clamp-1 text-sm text-muted-foreground'>
+			<p className='line-clamp-1 text-sm text-muted-foreground px-2'>
 				{`#${item.category_name} · ${formatDate(item.news_date)}`}
 			</p>
 		</Link>

@@ -12,6 +12,7 @@ export const regexpPublicRoutes = [
 	/^\/(|news|team|matches|shop|about|contacts)(?!\.)$/,
 	/^\/news(?:\/([^\/\.]+))?$/,
 	/^\/matches(?:\/([^\/\.]+))?$/,
+	/^\/users(?:\/([^\/\.]+))?$/,
 ]
 
 export const authRoutes = ['/login', '/register']

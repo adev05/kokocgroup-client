@@ -29,7 +29,7 @@ export default function TeamPage() {
 		const fetchTeam = async () => {
 			try {
 				const response = await fetch(
-					`${process.env.SERVER_URL}/v1/teams?status=present`
+					`${process.env.SERVER_URL}/v1/teams/kokoc/members`
 				)
 
 				console.log({ response })
@@ -54,7 +54,7 @@ export default function TeamPage() {
 	}, [])
 
 	return (
-		<div className='w-full container p-8 mx-auto space-y-8'>
+		<div className='w-full container p-8 mx-auto space-y-8 min-h-[calc(100svh-60px)]'>
 			<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>Команда</h1>
 
 			{isLoading

@@ -9,8 +9,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Bars3Icon } from '@heroicons/react/16/solid'
-import Navbar from './navbar'
 import SignIn from './signin-button'
+import Navbar from './navbar'
 
 export const headerComponents = [
 	{
