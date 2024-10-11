@@ -43,7 +43,7 @@ export default function About() {
 					<div className='embla__container'>
 						{new Array(24).fill(0).map((_, index) => (
 							<div
-								className='embla__slide select-none flex-[0_0_calc(100%/2)] xs:flex-[0_0_calc(100%/4)] md:flex-[0_0_calc(100%/6)] 2xl:flex-[0_0_calc(100%/10)] min-w-72 xs:min-w-0'
+								className='embla__slide select-none flex-[0_0_calc(100%/2)] xs:flex-[0_0_calc(100%/4)] md:flex-[0_0_calc(100%/6)] 2xl:flex-[0_0_calc(100%/10)] min-w-64 xs:min-w-0'
 								key={index}
 							>
 								<h1 className='font-medium text-lg'>Партнер {index + 1}</h1>

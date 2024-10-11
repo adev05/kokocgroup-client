@@ -33,7 +33,7 @@ export default function DashboardNavbar() {
 	console.log(pathname)
 
 	return (
-		<nav className='hidden lg:block space-x-2'>
+		<nav className='hidden xl:block space-x-2 mx-auto'>
 			{dashboardNavbarComponents.map(component => (
 				<Button
 					asChild

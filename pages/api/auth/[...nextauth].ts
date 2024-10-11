@@ -104,7 +104,7 @@ export const authOptions: NextAuthOptions = {
 					return null
 				}
 
-				// console.log(userData)
+				console.log({ userData })
 
 				return userData
 			},

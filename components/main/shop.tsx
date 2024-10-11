@@ -55,7 +55,7 @@ export default function Shop() {
 					<div className='embla__container'>
 						{new Array(12).fill(0).map((_, index) => (
 							<div
-								className='embla__slide select-none flex-[0_0_calc(100%/1)] md:flex-[0_0_calc(100%/2)] xl:flex-[0_0_calc(100%/4)] min-w-72 xs:min-w-0'
+								className='embla__slide select-none flex-[0_0_calc(100%/1)] md:flex-[0_0_calc(100%/2)] xl:flex-[0_0_calc(100%/4)] min-w-64 xs:min-w-0'
 								key={index}
 							>
 								<div className='border flex flex-col rounded-2xl overflow-hidden'>
