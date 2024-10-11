@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import MatchesCard from '@/components/matches/card'
 
 export default function MatchesPage() {
 	return (
@@ -80,7 +81,23 @@ export default function MatchesPage() {
 					</Button>
 				</div>
 			</div>
-			<div className='flex flex-col gap-4'>
+			<div className='space-y-4'>
+				<p className='font-semibold'>Август, 2024</p>
+				<div className='grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1 gap-4'>
+					{new Array(8).fill(0).map((_, index) => (
+						<MatchesCard key={index} />
+					))}
+				</div>
+			</div>
+			<div className='space-y-4'>
+				<p className='font-semibold'>Сентябрь, 2024</p>
+				<div className='grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1 gap-4'>
+					{new Array(12).fill(0).map((_, index) => (
+						<MatchesCard key={index} />
+					))}
+				</div>
+			</div>
+			{/* <div className='flex flex-col gap-4'>
 				<div className='flex flex-col gap-4'>
 					<p className='font-semibold'>Август, 2024</p>
 					{new Array(3).fill(0).map((_, index) => (
@@ -201,7 +218,7 @@ export default function MatchesPage() {
 						</div>
 					))}
 				</div>
-			</div>
+			</div> */}
 		</div>
 	)
 }
