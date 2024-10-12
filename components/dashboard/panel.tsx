@@ -18,7 +18,7 @@ export default function DashboardPanel() {
 				<div className='grid justify-center text-center md:text-start grid-cols-1 md:grid-cols-[auto,auto] gap-4 items-center md:ml-8'>
 					<Avatar className='w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto -mt-[56px] sm:-mt-[72px] md:-mt-[88px] outline-secondary outline-4 outline bg-secondary'>
 						<AvatarImage src={session?.user.avatar_url} />
-						<AvatarFallback>{`${session?.user.first_name[0]} ${session?.user.last_name[0]}`}</AvatarFallback>
+						<AvatarFallback className='bg-background'>{`${session?.user.first_name[0]} ${session?.user.last_name[0]}`}</AvatarFallback>
 					</Avatar>
 					<div className='space-y-1'>
 						<h1 className='text-xl leading-5 font-medium'>{`${session?.user.first_name} ${session?.user.last_name}`}</h1>

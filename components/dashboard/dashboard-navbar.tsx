@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Button } from '../ui/button'
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 const dashboardNavbarComponents = [
 	{
@@ -27,8 +28,19 @@ const dashboardNavbarComponents = [
 	},
 ]
 
+const dashboardProtectedComponents = [
+	{
+		id: 0,
+		name: 'Управление',
+		link: '/management',
+		canAccess: 'management',
+	},
+]
+
 export default function DashboardNavbar() {
 	const pathname = usePathname()
+	const { data: session } = useSession()
+	const permissions = session?.user.permissions
 
 	console.log(pathname)
 
@@ -46,6 +58,21 @@ export default function DashboardNavbar() {
 					<Link href={`/dashboard${component.link}`}>{component.name}</Link>
 				</Button>
 			))}
+			{dashboardProtectedComponents.map(
+				component =>
+					permissions?.includes(component.canAccess) && (
+						<Button
+							asChild
+							variant={
+								pathname == `/dashboard${component.link}` ? 'outline' : 'ghost'
+							}
+							className='transition-colors'
+							key={component.id}
+						>
+							<Link href={`/dashboard${component.link}`}>{component.name}</Link>
+						</Button>
+					)
+			)}
 		</nav>
 	)
 }
