@@ -63,10 +63,10 @@ COPY package.json .
 # the built application from the build stage into the image.
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/.next ./.next
-
-
+COPY --from=build /usr/src/app/public ./public
+COPY --from=build /usr/src/app/next.config.js ./next.config.js
 # Expose the port that the application listens on.
 EXPOSE 3000
 
 # Run the application.
-CMD npm run start
+CMD npm start
