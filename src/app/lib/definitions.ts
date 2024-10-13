@@ -44,8 +44,8 @@ export interface matchesType {
 	id: number
 	league: string
 	tour: string
-	start_date: Date
-	end_date: Date
+	start_date: string
+	end_date: string
 	first_team: {
 		id: number
 		name: string
@@ -60,6 +60,7 @@ export interface matchesType {
 	}
 	location_name: string
 	location_address: string
+	stream_url: string
 }
 
 export interface shopType {

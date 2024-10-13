@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import {
 	Select,
@@ -7,16 +9,114 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import MatchesCard from '@/components/matches/card'
+import { useEffect, useState } from 'react'
+import { matchesType } from '@/app/lib/definitions'
+import MatchesLoadingCard from '@/components/matches/loading-card'
 
 export default function MatchesPage() {
+	const [matches, setMatches] = useState<matchesType[]>([])
+	const [year, setYear] = useState<string>()
+	const [month, setMonth] = useState<string>()
+	// const [opponent, setOpponent] = useState<string>()
+	const [offset, setOffset] = useState<number>(0)
+	// const [search, setSearch] = useState<string>()
+	const [canShowMore, setCanShowMore] = useState<boolean>(true)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const LIMIT = 16
+	const currentYear = new Date().getFullYear()
+	const currentMonth = new Date().getMonth() + 1
+
+	useEffect(() => {
+		const fetchMatches = async () => {
+			try {
+				const response = await fetch(
+					`${
+						process.env.SERVER_URL
+					}/v1/events?page=event&offset=${offset}&limit=${LIMIT}${
+						year && year != 'all' ? '&year=' + year : ''
+					}${month && month != 'all' ? '&month=' + month : ''}`
+				)
+
+				console.log({ response })
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+				const data = await response.json()
+
+				console.log({ data })
+
+				if (data.length < LIMIT) {
+					setCanShowMore(false)
+				}
+
+				if (matches.length < LIMIT) {
+					setMatches(data)
+				} else {
+					setMatches(prevMatches => [...prevMatches, ...data])
+				}
+				setIsLoading(false)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
+		}
+
+		fetchMatches()
+	}, [offset])
+
+	useEffect(() => {
+		setOffset(0)
+		setMatches([])
+		setIsLoading(true)
+		setCanShowMore(true)
+		const fetchMatches = async () => {
+			try {
+				const response = await fetch(
+					`${
+						process.env.SERVER_URL
+					}/v1/events?page=event&offset=${offset}&limit=${LIMIT}${
+						year && year != 'all' ? '&year=' + year : ''
+					}${month && month != 'all' ? '&month=' + month : ''}`
+				)
+
+				console.log({ response })
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+				const data = await response.json()
+
+				console.log({ data })
+
+				if (data.length < LIMIT) {
+					setCanShowMore(false)
+				}
+
+				if (matches.length < LIMIT) {
+					setMatches(data)
+				} else {
+					setMatches(prevNews => [...prevNews, ...data])
+				}
+				setIsLoading(false)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
+		}
+
+		fetchMatches()
+	}, [year, month])
+
 	return (
 		<div className='w-full container p-8 mx-auto space-y-8 min-h-[calc(100svh-60px)]'>
 			<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>Матчи</h1>
-			<div className='w-full min-w-64 rounded-2xl bg-secondary grid grid-rows-4 grid-cols-1 md:grid-cols-[repeat(3,auto),1fr] md:grid-rows-1 items-center gap-2 p-2'>
-				<Select>
+			<div className='w-full min-w-64 rounded-2xl bg-secondary grid grid-rows-2 grid-cols-1 md:grid-cols-[repeat(2,auto),1fr] md:grid-rows-1 items-center gap-2 p-2'>
+				<Select
+					value={year}
+					onValueChange={value => {
+						setYear(value)
+					}}
+				>
 					<SelectTrigger className='w-full md:w-24 shadow-none border-none !ring-0'>
 						<SelectValue placeholder='Год' />
 					</SelectTrigger>
@@ -32,8 +132,16 @@ export default function MatchesPage() {
 					</SelectContent>
 				</Select>
 
-				<Select>
-					<SelectTrigger className='w-full md:w-36 shadow-none border-none !ring-0'>
+				<Select
+					value={month}
+					onValueChange={value => {
+						setMonth(value)
+					}}
+				>
+					<SelectTrigger
+						className='w-full md:w-36 shadow-none border-none !ring-0'
+						disabled={!!!year}
+					>
 						<SelectValue placeholder='Месяц' />
 					</SelectTrigger>
 					<SelectContent>
@@ -55,7 +163,7 @@ export default function MatchesPage() {
 					</SelectContent>
 				</Select>
 
-				<Select>
+				{/* <Select>
 					<SelectTrigger className='w-full md:w-48 shadow-none border-none !ring-0'>
 						<SelectValue placeholder='Оппонент' />
 					</SelectTrigger>
@@ -68,155 +176,36 @@ export default function MatchesPage() {
 							<SelectItem value='Интервью'>Интервью</SelectItem>
 						</SelectGroup>
 					</SelectContent>
-				</Select>
-				<div className='flex'>
-					<Input
-						placeholder='Поиск по матчам'
-						className='shadow-none border-none !ring-0'
-					/>
-					<Button variant='ghost'>
-						<MagnifyingGlassIcon className='size-4' />
-					</Button>
-				</div>
+				</Select> */}
 			</div>
-			<div className='space-y-4'>
-				<p className='font-semibold'>Август, 2024</p>
-				<div className='grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1 gap-4'>
-					{new Array(8).fill(0).map((_, index) => (
-						<MatchesCard key={index} />
+			{isLoading ? (
+				<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
+					{new Array(16).fill(0).map((_, index) => (
+						<MatchesLoadingCard key={index} />
 					))}
 				</div>
-			</div>
-			<div className='space-y-4'>
-				<p className='font-semibold'>Сентябрь, 2024</p>
-				<div className='grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1 gap-4'>
-					{new Array(12).fill(0).map((_, index) => (
-						<MatchesCard key={index} />
+			) : matches.length > 0 ? (
+				<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
+					{matches.map(item => (
+						<MatchesCard item={item} key={item.id} />
 					))}
 				</div>
-			</div>
-			{/* <div className='flex flex-col gap-4'>
-				<div className='flex flex-col gap-4'>
-					<p className='font-semibold'>Август, 2024</p>
-					{new Array(3).fill(0).map((_, index) => (
-						<div
-							className='w-full min-w-64 p-4 sm:px-8 sm:py-4 bg-secondary rounded-2xl grid grid-cols-1 lg:grid-cols-[auto,1fr,auto] items-center gap-4 justify-between'
-							key={index}
-						>
-							<div className='flex flex-col justify-between'>
-								<h1 className='font-bold text-xl xl:text-2xl'>14:00</h1>
-								<p className='font text-base leading-4'>12 апр, вс</p>
-							</div>
-							<div className='flex gap-8 items-center justify-center'>
-								<div className='flex flex-col-reverse sm:flex-row items-center gap-4'>
-									<p>ЦСКА</p>
-									<Image
-										src='https://upload.wikimedia.org/wikipedia/ru/f/f4/FC_CSKA_Moscow_Logo.svg'
-										alt='cska'
-										width={50}
-										height={50}
-										className='w-12 max-w-full h-auto aspect-square object-contain'
-									/>
-								</div>
-								<h1 className='font-semibold text-2xl xl:text-3xl'>1:5</h1>
-								<div className='flex flex-col-reverse sm:flex-row-reverse items-center gap-4'>
-									<p>Спартак</p>
-									<Image
-										src='https://upload.wikimedia.org/wikipedia/ru/3/3b/FC_Spartak_Moscow_Logotype.svg'
-										alt='cska'
-										width={50}
-										height={50}
-										className='w-12 max-w-full h-auto aspect-square object-contain'
-									/>
-								</div>
-							</div>
-							<Button asChild>
-								<Link href='/'>Матч-центр</Link>
-							</Button>
-						</div>
-					))}
-				</div>
-				<div className='flex flex-col gap-4'>
-					<p className='font-semibold'>Сентябрь, 2024</p>
-					{new Array(5).fill(0).map((_, index) => (
-						<div
-							className='w-full px-8 py-4 bg-secondary rounded-xl grid grid-cols-1 lg:grid-cols-[auto,1fr,auto] items-center gap-4 justify-between'
-							key={index}
-						>
-							<div className='flex flex-col justify-between'>
-								<h1 className='font-bold text-xl xl:text-2xl'>14:00</h1>
-								<p className='font text-base leading-4'>12 апр, вс</p>
-							</div>
-							<div className='flex gap-8 items-center justify-center'>
-								<div className='flex flex-col-reverse sm:flex-row items-center gap-4'>
-									<p>ЦСКА</p>
-									<Image
-										src='https://upload.wikimedia.org/wikipedia/ru/f/f4/FC_CSKA_Moscow_Logo.svg'
-										alt='cska'
-										width={50}
-										height={50}
-										className='w-12 max-w-full h-auto aspect-square object-contain'
-									/>
-								</div>
-								<h1 className='font-semibold text-2xl xl:text-4xl'>1:5</h1>
-								<div className='flex flex-col-reverse sm:flex-row-reverse items-center gap-4'>
-									<p>Спартак</p>
-									<Image
-										src='https://upload.wikimedia.org/wikipedia/ru/3/3b/FC_Spartak_Moscow_Logotype.svg'
-										alt='cska'
-										width={50}
-										height={50}
-										className='w-12 max-w-full h-auto aspect-square object-contain'
-									/>
-								</div>
-							</div>
-							<Button asChild>
-								<Link href='/'>Матч-центр</Link>
-							</Button>
-						</div>
-					))}
-				</div>
-				<div className='flex flex-col gap-4'>
-					<p className='font-semibold'>Октябрь, 2024</p>
-					{new Array(3).fill(0).map((_, index) => (
-						<div
-							className='w-full px-8 py-4 bg-secondary rounded-xl grid grid-cols-1 lg:grid-cols-[auto,1fr,auto] items-center gap-4 justify-between'
-							key={index}
-						>
-							<div className='flex flex-col justify-between'>
-								<h1 className='font-bold text-xl xl:text-2xl'>14:00</h1>
-								<p className='font text-base leading-4'>12 апр, вс</p>
-							</div>
-							<div className='flex gap-8 items-center justify-center'>
-								<div className='flex flex-col-reverse sm:flex-row items-center gap-4'>
-									<p>ЦСКА</p>
-									<Image
-										src='https://upload.wikimedia.org/wikipedia/ru/f/f4/FC_CSKA_Moscow_Logo.svg'
-										alt='cska'
-										width={50}
-										height={50}
-										className='w-12 max-w-full h-auto aspect-square object-contain'
-									/>
-								</div>
-								<h1 className='font-semibold text-2xl xl:text-4xl'>1:5</h1>
-								<div className='flex flex-col-reverse sm:flex-row-reverse items-center gap-4'>
-									<p>Спартак</p>
-									<Image
-										src='https://upload.wikimedia.org/wikipedia/ru/3/3b/FC_Spartak_Moscow_Logotype.svg'
-										alt='cska'
-										width={50}
-										height={50}
-										className='w-12 max-w-full h-auto aspect-square object-contain'
-									/>
-								</div>
-							</div>
-							<Button asChild>
-								<Link href='/'>Матч-центр</Link>
-							</Button>
-						</div>
-					))}
-				</div>
-			</div> */}
+			) : (
+				<div>Ничего не найдено</div>
+			)}
+			{canShowMore ? (
+				<Button
+					variant='secondary'
+					className='mx-auto w-full'
+					onClick={() => setOffset(offset + LIMIT)}
+				>
+					Показать еще
+				</Button>
+			) : matches.length > 0 ? (
+				<Button variant='outline' disabled className='mx-auto w-full'>
+					Все новости загружены
+				</Button>
+			) : null}
 		</div>
 	)
 }
