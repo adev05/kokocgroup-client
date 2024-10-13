@@ -22,7 +22,7 @@ const handler = NextAuth({
 
 				try {
 					const response = await fetch(
-						process.env.SERVER_URL + '/v1/users/auth/refresh',
+						process.env.AUTH_SERVER_URL + '/v1/users/auth/refresh',
 						{
 							method: 'POST',
 							headers: {
@@ -83,7 +83,7 @@ const handler = NextAuth({
 				const { login, password } = parsedCredentials.data
 
 				const response = await fetch(
-					process.env.SERVER_URL + '/v1/users/auth/login',
+					process.env.AUTH_SERVER_URL + '/v1/users/auth/login',
 					{
 						method: 'POST',
 						headers: {
@@ -122,7 +122,7 @@ const handler = NextAuth({
 		async signOut(message) {
 			console.log('signOut message:', message)
 			if ('token' in message) {
-				await fetch(process.env.SERVER_URL + '/v1/users/auth/logout', {
+				await fetch(process.env.AUTH_SERVER_URL + '/v1/users/auth/logout', {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
