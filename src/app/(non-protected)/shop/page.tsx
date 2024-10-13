@@ -1,4 +1,9 @@
+'use client'
+
+import { shopType } from '@/app/lib/definitions'
 import ShopCard from '@/components/shop/card'
+import ShopLoadingCard from '@/components/shop/loading-card'
+import { Button } from '@/components/ui/button'
 import {
 	Select,
 	SelectContent,
@@ -7,44 +12,150 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import { useEffect, useState } from 'react'
 
 export default function ShopPage() {
+	const [shop, setShop] = useState<shopType[]>([])
+	const [filter, setFilter] = useState<string>('new')
+	const [category, setCategory] = useState<string>()
+	const [allCategories, setAllCategories] = useState<string[]>()
+	const [offset, setOffset] = useState<number>(0)
+	const [canShowMore, setCanShowMore] = useState<boolean>(true)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const LIMIT = 16
+
+	useEffect(() => {
+		const fetchShop = async () => {
+			try {
+				const response = await fetch(
+					`${process.env.SERVER_URL}/v1/store?offset=${offset}&limit=${LIMIT}${
+						filter ? '&filter=' + filter : ''
+					}${category && category != 'all' ? '&category=' + category : ''}`
+				)
+
+				console.log({ response })
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+				const data = await response.json()
+
+				console.log({ data })
+
+				if (data.length < LIMIT) {
+					setCanShowMore(false)
+				}
+
+				if (shop.length < LIMIT) {
+					setShop(data)
+				} else {
+					setShop(prevShop => [...prevShop, ...data])
+				}
+				setIsLoading(false)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
+		}
+
+		const fetchCategories = async () => {
+			try {
+				const response = await fetch(
+					`${process.env.SERVER_URL}/v1/store/categories`
+				)
+				const data = await response.json()
+				setAllCategories(data)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
+		}
+
+		fetchShop()
+		fetchCategories()
+	}, [offset])
+
+	useEffect(() => {
+		setOffset(0)
+		setShop([])
+		setIsLoading(true)
+		setCanShowMore(true)
+		const fetchMatches = async () => {
+			try {
+				const response = await fetch(
+					`${process.env.SERVER_URL}/v1/store?offset=${offset}&limit=${LIMIT}${
+						filter ? '&filter=' + filter : ''
+					}${category && category != 'all' ? '&category=' + category : ''}`
+				)
+
+				console.log({ response })
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+				const data = await response.json()
+
+				console.log({ data })
+
+				if (data.length < LIMIT) {
+					setCanShowMore(false)
+				}
+
+				if (shop.length < LIMIT) {
+					setShop(data)
+				} else {
+					setShop(prevShop => [...prevShop, ...data])
+				}
+				setIsLoading(false)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
+		}
+
+		fetchMatches()
+	}, [filter, category])
+
+	function capitalizeFirstLetter(string: string) {
+		return string.charAt(0).toUpperCase() + string.slice(1)
+	}
+
 	return (
 		<div className='w-full container p-8 mx-auto space-y-8 min-h-[calc(100svh-60px)]'>
 			<h1 className='font-semibold text-xl lg:text-2xl xl:text-4xl'>Магазин</h1>
 			<div className='w-full min-w-64 rounded-2xl bg-secondary grid grid-rows-2 grid-cols-1 md:grid-cols-[repeat(2,auto),1fr] md:grid-rows-1 items-center gap-2 p-2'>
-				<Select defaultValue='all'>
+				<Select
+					value={filter}
+					onValueChange={value => {
+						setFilter(value)
+					}}
+				>
 					<SelectTrigger className='w-full md:w-48 shadow-none border-none !ring-0'>
 						<SelectValue placeholder='Фильтр' />
 					</SelectTrigger>
 					<SelectContent>
 						<SelectGroup>
-							<SelectItem value='all'>Сначала новые</SelectItem>
-							<SelectItem value='2024'>Сначала дороже</SelectItem>
-							<SelectItem value='2023'>Сначала дешевле</SelectItem>
+							<SelectItem value='new'>Сначала новые</SelectItem>
+							<SelectItem value='expensive'>Сначала дороже</SelectItem>
+							<SelectItem value='cheap'>Сначала дешевле</SelectItem>
 						</SelectGroup>
 					</SelectContent>
 				</Select>
 
-				<Select>
+				<Select
+					value={category}
+					onValueChange={value => {
+						setCategory(value)
+					}}
+				>
 					<SelectTrigger className='w-full md:w-64 shadow-none border-none !ring-0'>
 						<SelectValue placeholder='Категория' />
 					</SelectTrigger>
 					<SelectContent>
 						<SelectGroup>
 							<SelectItem value='all'>Все</SelectItem>
-							<SelectItem value='1'>Январь</SelectItem>
-							<SelectItem value='2'>Февраль</SelectItem>
-							<SelectItem value='3'>Март</SelectItem>
-							<SelectItem value='4'>Апрель</SelectItem>
-							<SelectItem value='5'>Май</SelectItem>
-							<SelectItem value='6'>Июнь</SelectItem>
-							<SelectItem value='7'>Июль</SelectItem>
-							<SelectItem value='8'>Август</SelectItem>
-							<SelectItem value='9'>Сентябрь</SelectItem>
-							<SelectItem value='10'>Октябрь</SelectItem>
-							<SelectItem value='11'>Ноябрь</SelectItem>
-							<SelectItem value='12'>Декабрь</SelectItem>
+							{allCategories?.map((categoryName, index) => (
+								<SelectItem value={categoryName} key={index}>
+									{capitalizeFirstLetter(categoryName)}
+								</SelectItem>
+							))}
 						</SelectGroup>
 					</SelectContent>
 				</Select>
@@ -73,11 +184,34 @@ export default function ShopPage() {
 					</Button>
 				</div> */}
 			</div>
-			<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
-				{new Array(16).fill(0).map((_, index) => (
-					<ShopCard key={index} />
-				))}
-			</div>
+			{isLoading ? (
+				<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
+					{new Array(16).fill(0).map((_, index) => (
+						<ShopLoadingCard key={index} />
+					))}
+				</div>
+			) : shop.length > 0 ? (
+				<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'>
+					{shop.map(item => (
+						<ShopCard item={item} key={item.id} />
+					))}
+				</div>
+			) : (
+				<div>Ничего не найдено</div>
+			)}
+			{canShowMore ? (
+				<Button
+					variant='secondary'
+					className='mx-auto w-full'
+					onClick={() => setOffset(offset + LIMIT)}
+				>
+					Показать еще
+				</Button>
+			) : shop.length > 0 ? (
+				<Button variant='outline' disabled className='mx-auto w-full'>
+					Все товары загружены
+				</Button>
+			) : null}
 		</div>
 	)
 }

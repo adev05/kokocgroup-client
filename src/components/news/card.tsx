@@ -18,7 +18,7 @@ export default function NewsCard({ item }: { item: newsType }) {
 		>
 			<Image
 				src={process.env.SERVER_URL + item.image_url}
-				alt='news-background'
+				alt={item.title}
 				width={1920}
 				height={1080}
 				className='w-full max-w-full object-cover aspect-video rounded-2xl bg-secondary'

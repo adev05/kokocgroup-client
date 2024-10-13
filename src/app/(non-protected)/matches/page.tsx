@@ -24,8 +24,6 @@ export default function MatchesPage() {
 	const [canShowMore, setCanShowMore] = useState<boolean>(true)
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const LIMIT = 16
-	const currentYear = new Date().getFullYear()
-	const currentMonth = new Date().getMonth() + 1
 
 	useEffect(() => {
 		const fetchMatches = async () => {
@@ -203,7 +201,7 @@ export default function MatchesPage() {
 				</Button>
 			) : matches.length > 0 ? (
 				<Button variant='outline' disabled className='mx-auto w-full'>
-					Все новости загружены
+					Все матчи загружены
 				</Button>
 			) : null}
 		</div>

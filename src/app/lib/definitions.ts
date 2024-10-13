@@ -65,4 +65,10 @@ export interface matchesType {
 
 export interface shopType {
 	id: number
+	title: string
+	price: number
+	description: string
+	category_name: string
+	image_url: string
+	sizes: string[]
 }
