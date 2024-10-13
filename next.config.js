@@ -1,33 +1,13 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+	output: 'standalone',
 	images: {
-		remotePatterns: [
-			{
-				protocol: 'http',
-				hostname: 'localhost',
-				port: '8080',
-				pathname: '/api/**',
-			},
-			{
-				protocol: 'http',
-				hostname: '192.168.43.176',
-				port: '8000',
-				pathname: '/api/**',
-			},
-			{
-				protocol: 'http',
-				hostname: 'lfl.ru',
-				port: '',
-				pathname: '/photo/**',
-			},
-			{
-				protocol: 'https',
-				hostname: '*',
-				port: '',
-				pathname: '/**',
-			},
-		],
+		domains: ['localhost', 'avatars.githubusercontent.com', 'store.cloud9.gg'],
+		loader: 'default',
 	},
 	env: {
 		SERVER_URL: process.env.SERVER_URL,
 	},
 }
+
+module.exports = nextConfig

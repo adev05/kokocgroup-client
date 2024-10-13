@@ -3,9 +3,7 @@
 import Link from 'next/link'
 import Logotype from '@/components/logotype'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { signIn } from 'next-auth/react'
 import { useRef } from 'react'
 

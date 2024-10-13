@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
-
+export const dynamic = 'force-dynamic'
 export default function NewsPage() {
 	const [news, setNews] = useState<newsType[]>([])
 	const [year, setYear] = useState<string>()

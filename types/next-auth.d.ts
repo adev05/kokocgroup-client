@@ -1,20 +1,12 @@
+import { userType } from '@/app/lib/definitions'
 import { Session } from 'next-auth'
 
 declare module 'next-auth' {
 	interface Session {
-		user: {
-			id: string
-			username: string
-			email: string
-			first_name: string
-			last_name: string
-			patronymic: string
-			date_of_birth: string
-			phone_number: string
-			avatar_url: string
-			permissions: string[]
-		}
+		user: userType
 		access_token: string
+		expires_at: string
+		refresh_token: string
 	}
 }
 

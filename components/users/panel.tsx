@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import UsersNavbar from '@/components/users/users-navbar'
+import { userType } from '@/app/lib/definitions'
 
 export default function UsersPanel({ userId }: { userId: number }) {
-	const [user, setUser] = useState(null)
+	const [user, setUser] = useState<userType>()
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
 

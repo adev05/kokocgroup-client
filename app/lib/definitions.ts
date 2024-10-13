@@ -1,3 +1,16 @@
+export interface userType {
+	id: string
+	username: string
+	email: string
+	first_name: string
+	last_name: string
+	patronymic: string
+	date_of_birth: string
+	phone_number: string
+	avatar_url: string
+	permissions: string[]
+}
+
 export interface newsType {
 	id: number
 	title: string

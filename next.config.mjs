@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+	output: 'standalone',
+	images: {
+		domains: ['localhost', 'avatars.githubusercontent.com', 'store.cloud9.gg'],
+		loader: 'default',
+	},
+	env: {
+		SERVER_URL: process.env.SERVER_URL,
+	},
+}
 
-export default nextConfig;
+export default nextConfig

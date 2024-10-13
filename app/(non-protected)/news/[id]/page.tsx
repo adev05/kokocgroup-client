@@ -124,6 +124,7 @@ export default function Page({ params }: { params: { id: number } }) {
 				width={1920}
 				height={1080}
 				className='h-full w-3/4 rounded-2xl object-cover mx-auto'
+				unoptimized={true}
 			/>
 			<div>
 				<BlockNoteView
