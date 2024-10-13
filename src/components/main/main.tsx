@@ -18,6 +18,7 @@ export default function Main() {
 							className='size-[clamp(0rem,20vw,20rem)] md:size-[10rem] xl:size-[16rem]'
 							quality={100}
 							priority={true}
+							unoptimized={true}
 						/>
 						<p>К</p>
 						<Image
@@ -28,6 +29,7 @@ export default function Main() {
 							className='size-[clamp(0rem,20vw,20rem)] md:size-[10rem] xl:size-[16rem]'
 							quality={100}
 							priority={true}
+							unoptimized={true}
 						/>
 						<p>С</p>
 					</div>
@@ -43,6 +45,7 @@ export default function Main() {
 					className='w-full h-full absolute top-0 object-cover -z-10'
 					quality={100}
 					priority={true}
+					unoptimized={true}
 				/>
 			</div>
 		</>

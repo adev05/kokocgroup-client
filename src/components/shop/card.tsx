@@ -14,6 +14,7 @@ export default function ShopCard({ item }: { item?: shopType }) {
 				width={1000}
 				height={1000}
 				className='w-full aspect-square object-cover rounded-2xl bg-secondary'
+				unoptimized={true}
 			/>
 			<h3 className='line-clamp-2 text-base h-[2lh] px-2 font-medium'>
 				Lorem Ipsum is simply dummy text of the printing and typesetting

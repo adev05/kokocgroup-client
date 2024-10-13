@@ -65,6 +65,12 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/.next ./.next
 COPY --from=build /usr/src/app/public ./public
 COPY --from=build /usr/src/app/next.config.js ./next.config.js
+
+ENV SERVER_URL=http://server:8000/api
+ENV NEXTAUTH_SECRET=+j6L0VEeM5iWKPIBtw43Xqod7T4DV94YWkiBZQhQC48=
+ENV NEXTAUTH_URL=http://localhost:3000
+ENV NEXTAUTH_URL_INTERNAL=http://client:3000
+ENV AUTH_TRUST_HOST=TRUE
 # Expose the port that the application listens on.
 EXPOSE 3000
 

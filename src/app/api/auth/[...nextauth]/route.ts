@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { z } from 'zod'
 
@@ -7,7 +7,7 @@ const userSchema = z.object({
 	password: z.string().min(8),
 })
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) {
@@ -135,5 +135,6 @@ export const authOptions: NextAuthOptions = {
 		// 	// console.log('session message', message)
 		// },
 	},
-}
-export default NextAuth(authOptions)
+})
+
+export { handler as GET, handler as POST }

@@ -15,6 +15,7 @@ export default function TeamCard({ item }: { item: playerType }) {
 					width={450}
 					height={450}
 					className='rounded-xl aspect-square object-cover object-top mx-auto bg-[#FFFFFD] w-full'
+					unoptimized={true}
 				/>
 			)}
 			<h1 className='text-xl leading-5 font-semibold'>{`${item.first_name} ${item.last_name}`}</h1>

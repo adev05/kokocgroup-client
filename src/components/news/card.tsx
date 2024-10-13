@@ -22,7 +22,8 @@ export default function NewsCard({ item }: { item: newsType }) {
 				width={1920}
 				height={1080}
 				className='w-full max-w-full object-cover aspect-video rounded-2xl bg-secondary'
-				loading='lazy'
+				loading='eager'
+				unoptimized={true}
 			/>
 
 			<h3 className='line-clamp-1 text-base h-[1lh] px-2 font-medium'>

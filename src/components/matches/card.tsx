@@ -30,6 +30,7 @@ export default function MatchesCard({ item }: { item?: matchesType }) {
 						width={48}
 						height={48}
 						className='aspect-square object-contain'
+						unoptimized={true}
 					/>
 					<p className=''>Кокос групп</p>
 					<p className='ml-auto font-semibold text-lg'>5</p>
@@ -41,6 +42,7 @@ export default function MatchesCard({ item }: { item?: matchesType }) {
 						width={48}
 						height={48}
 						className='aspect-square object-contain'
+						unoptimized={true}
 					/>
 					<p className=''>Нубы какие-то</p>
 					<p className='ml-auto font-semibold text-lg'>0</p>
