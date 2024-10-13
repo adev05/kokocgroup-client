@@ -9,7 +9,7 @@ export default function Footer() {
 	return (
 		<footer className='w-full mx-auto bg-black dark:bg-transparent text-white space-y-8'>
 			<div className='container p-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[auto,1fr,auto] mx-auto justify-between gap-y-4 md:gap-12 w-full'>
-				<div className='space-y-4 text-center md:text-start min-w-64'>
+				<div className='space-y-4 text-center md:text-start min-w-64 sm:min-w-fit'>
 					<div className='space-y-4 flex justify-center md:justify-start'>
 						<Logotype variant='light' size='long' />
 					</div>
@@ -25,7 +25,7 @@ export default function Footer() {
 					</div>
 				</div>
 
-				<div className='grid col-span-2 xl:col-span-1 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 items-center gap-4 min-w-64'>
+				<div className='grid col-span-2 xl:col-span-1 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 items-center gap-4 min-w-64 sm:min-w-fit'>
 					{headerComponents.map(component => (
 						<Button
 							asChild
@@ -38,7 +38,7 @@ export default function Footer() {
 					))}
 				</div>
 
-				<div className='flex flex-col gap-4 justify-between min-w-64 text-center md:col-start-2 md:row-start-1 xl:col-start-3'>
+				<div className='flex flex-col gap-4 justify-between min-w-64 sm:min-w-fit text-center md:col-start-2 md:row-start-1 xl:col-start-3'>
 					<div className='space-y-2'>
 						<p className='text-sm text-muted-foreground'>
 							Разработано студией:

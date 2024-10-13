@@ -78,7 +78,7 @@ export default function MatchesCard({ item }: { item: matchesType }) {
 				</div>
 				{status == 'live' ? (
 					<div className='bg-red-600 text-white px-3 py-1 rounded-xl text-sm font-medium'>
-						Live
+						LIVE
 					</div>
 				) : (
 					<div className='flex flex-col text-end gap-1'>
