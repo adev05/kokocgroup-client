@@ -10,11 +10,11 @@ export default function TeamCard({ item }: { item: playerType }) {
 		>
 			{item.avatar_url && (
 				<Image
-					src={item.avatar_url}
+					src={process.env.SERVER_URL + item.avatar_url}
 					alt={`${item.first_name} ${item.last_name}`}
 					width={450}
 					height={450}
-					className='rounded-xl aspect-square object-cover object-top mx-auto bg-[#FFFFFD] w-full'
+					className='rounded-xl aspect-square object-contain object-top mx-auto bg-[#FFFFFD] w-full'
 					unoptimized={true}
 				/>
 			)}

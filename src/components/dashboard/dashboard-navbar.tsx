@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react'
 const dashboardNavbarComponents = [
 	{
 		id: 0,
-		name: 'Главная',
+		name: 'О себе',
 		link: '',
 	},
 	{
